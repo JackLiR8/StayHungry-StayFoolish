@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        let arr = [1,2,3,4]
+        let new_arr = arr.map(double)
+        function double(e){
+            return e*2
+        }
+        console.log('新数组', new_arr)
+        
+
+       /*  语法：       array.map(callback[,thisArg])
+        var new_array = arr.map(function callback(currentValue[, index[, array]])   {
+            Return element for new_array }[, 
+            thisArg])
+
+            参数:
+            callback
+                生成新数组元素的函数，使用三个参数：
+                    currentValue
+                        callback 数组中正在处理的当前元素。
+                    index可选
+                        callback 数组中正在处理的当前元素的索引。
+                    array可选
+                        callback  map 方法被调用的数组。
+            thisArg可选
+                执行 callback 函数时使用的this 值。 */
+    </script>
+</body>
+</html>
