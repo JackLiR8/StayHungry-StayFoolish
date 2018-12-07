@@ -1,0 +1,191 @@
+1. 安装Node.js
+百度搜索Node.js 到官网下载和操作系统匹配的版本
+下载完成后双击安装
+
+检验是否安装成功：
+    打开终端(火箭->其他->终端)
+    在终端中输入：
+        node -v
+    以及： npm -v
+
+如果上面的命令提示了版本号，则表示安装成功
+
+说明：
+    Node.js 是JS的运行平台
+    Node.js 集成了npm（Node Package Manager:Node包管理器）
+
+
+2. 安装淘宝镜像：
+在终端中输入：
+    sudo npm install -g cnpm --registry=https://registry.npm.taobao.org
+
+检验是否安装成功：
+    在终端中输入：
+        cnpm -v
+如果上面的命令提示了版本号，则表示安装成功
+
+另一种加速方法：
+修改npm为淘宝镜像：
+    npm config set registry https://registry.npm.taobao.org 
+
+查看当前的npm的仓库地址：
+    npm config get registry
+
+3.安装vue脚手架
+在终端中输入：
+    sudo cnpm install -g vue-cli
+
+检验是否安装成功：
+    在终端中输入：
+        vue -V
+如果上面的命令提示了版本号，则表示安装成功  
+
+4.利用脚手架拉取项目
+  4.1）新建一个自己的文件夹(自行命名),通过下面的Linux命令将终端的目录定位到该新建文件夹
+  
+  Linux命令：
+    ls     : 列出当前所在的文件夹包含的目录
+    cd xxx : 进入到xxx文件夹 (xxx表示你要进入的文件夹名称)
+    cd ..  : 返回上一级目录
+
+  4.2）终端定位到自己新建文件夹后，
+      在终端中输入：
+            sudo vue init webpack my-project
+        上面的命令中 my-project 可以自己命名，表示你的项目名称，可以任意修改；其他的4个单词不能修改
+      
+     输入完回车后，根据提示输入一些信息
+
+5.安装项目依赖
+如果项目文件夹中没有 node_modules 文件夹，则表示该项目没有安装依赖
+安装依赖的步骤：
+ 5.1) 终端定位到项目文件夹  cd my-project
+ 5.2) 在终端中输入：
+        sudo cnpm install
+    等待一段时间后，终端安装完成并且没有ERR错误提示，则表示安装完全
+    
+6.运行项目
+在终端中输入：
+  cd my-project  进入项目目录(如果已经在项目目录中则不要再cd了)
+  npm run dev 或者 npm run start
+
+7.项目的目录结构:
+	readme.md 		说明文档
+	package.json    项目的配置文件
+		{
+			scripts:{配置npm run的命令
+				xxx:""
+			},
+			dependencies:{
+			//配置项目中运行时所需要的依赖文件
+
+			//该项目添加库文件
+			npm install 库文件名 --save (-S)
+			},
+			devDependencies:{
+				//配置项目中开发时所需要的依赖文件
+			
+				//该项目添加开发时使用的工具文件
+				npm install 工具名 --save-dev (-D)
+			}
+		}
+	
+	index.html　项目中的唯一html
+	
+8.wepack理解： 
+	webpack是打包工具，
+		从入口文件进去，依次找到相关的文件，
+		在读取相关文件的同时利用配置好的编译器(loaders）对所读到的文件进行编译
+		编译完成后输出到出口文件，
+		再利用已配置的插件将出口文件自动的插入到index.html中
+		
+9.模块化语法：
+
+模块化：1.一个模块中的定义的变量或函数一定局部的
+       2. 某个模块要依赖于其他，就在当前模块中导入所依赖的模块即可
+
+ES6中的模块化语法：import / export
+ES6之前有插件可以实现模块化： require.js / sea.js / common.js(require/module.exports)
+
+9.1 ES6模块化语法: import / export default/export
+1）import 导入
+import 命令所导入的模块会在当前模块执行前先执行
+所有import命令不能嵌套在一个函数，必须要放在模块的顶层
+
+//import './myjs/a';//加载并执行指定路径的文件
+import {show as fn} from './myjs/a'
+
+2）导出：
+*  export default 导出默认模块
+ *      1个模块中只能使用一次export default
+ *      export default 导出的模块名称不需要明确
+ *      export default 可以导出变量的值
+ *      如果变量已经事先定义好了，则 export default直接导出变量名
+ * 在用import 导入 export default导出的模块时
+ *      import 任意命名  from './xxx'
+ * 
+ * export 导出模块
+ *      1个模块中可以无限次使用export
+ *      export导出的模块名称一定要明确
+ *      export 可以导出变量的定义
+ *      如果变量已经事先定义好了，则 export导出 {变量名}
+ * 
+ * 在用import 导入 export导出的模块时
+ *      import {名称和export导出时名称一致} from './xx'
+ *      import {show as fn} from './myjs/a'
+ * 
+ *      import * as obj from './xxx'
+
+9.2 Node.js集成的Common.js模块化语法: require / module.exports
+	导出：	
+		module.exports={}	//将导出的数据赋值给module.exports
+	导入：let Person= require(路径)
+	
+9.3 require/module.exports 和 import/export 可以混用
+
+	myjs/c:
+		module.exports={
+			show    //等效show:show
+		};
+	main.js:
+		import Person  from './myjs/c';
+	
+	myjs/d:
+		export default {
+			name:'zshang',
+			show(){
+					console.log('d的show...');
+				}
+		}
+
+		export var lis={
+			name:'lisi'
+		}
+	main.js:
+		var obj=require('./myjs/d');
+		//obj={default:{name:'zshang',...},lis:{name:'lisi'}}
+		
+10.项目运行流程
+	1）在终端中输入 npm run dev
+	node.js执行：
+		webpack-dev-server --inline --progress --config build/webpack.dev.conf.js
+	
+	说明：	
+		--inline 设置服务器的热更新模式
+		--progress 显示运行的进度
+		--config 指定webpack-dev-server 读取的配置文件
+				 如果没有指定，则默认读取同一级的webpack.config.js文件
+	
+    2）读取指定的配置文件
+		build/webpack.dev.conf.js
+	  里面包括：服务器配置devServer
+				webpack配置：
+					入口 entry
+					出口 output
+					loaders： vue-loader/babel-loader/url-loader/style-loader(css-loader/less-loader/sass-loader)
+					plugins: HtmlWepackPlugin / CopyWebpackPlugin / UgliyJs
+	
+    3) 根据配置文件指定的入口文件，找到所有相关文件
+		读取入口文件及其相关文件时利用已经配置好的loaders对对应文件进行编译
+		编译后输出到出口文件，
+		利用HtmlWepackPlugin将出口文件自动插入到index.html中
+		启动devServer服务器，打开index.html
