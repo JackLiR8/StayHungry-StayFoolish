@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Array.prototype.slice()</title>
+</head>
+<body>
+    <script>
+        var arr =  [1,2,3,4,5]
+        
+        var arr1 = arr.slice()
+        var arr2 = arr.slice(2)
+        var arr3 = arr.slice(0,2)
+        var arr4 = arr.slice(-2)
+        var arr5 = arr.slice(6)
+
+        console.log('arr1', arr1)       // [1,2,3,4,5]
+        console.log('arr2', arr2)       // [3,4,5]
+        console.log('arr3', arr3)       // [1,2]
+        console.log('arr4', arr4)       // [4,5]
+        console.log('arr5', arr5)       // []
+        
+        /* 
+        Array.prototype.slice()
+            对原数组的浅拷贝，返回一个新数组
+            语法： slice()
+                参数 slice(begin,end) 两个参数都是可选参数
+                slice()     [0,end]
+                slice(n)    [n,end]
+                slice(n,m)  [n,m）   包头不包尾
+                slice(-n)   从倒数第 n 个开始，到最后一个
+                如果 begin > arr.length 返回空数组
+                如果 end > arr.length 则提取到数组末尾
+        */
+    </script>
+</body>
+</html>
