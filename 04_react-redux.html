@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>react-redux</title>
+</head>
+<body>
+    <div id="app"></div>
+    <script src="../libs/react.development.js"></script>
+    <script src="../libs/react-dom.development.js"></script>
+    <script src="../libs/babel.js"></script>
+    <script src="../libs/redux@3.7.2.js"></script>
+    <script src="../libs/react-redux.js"></script>
+    <script type="text/babel">
+
+        /* 
+        1.
+            react-redux 有两类组件： UI 组件 ，容器组件 
+                UI 组件：
+                    只负责 UI 展示，没有任何逻辑
+                    没有任何状态
+                    所有参数都由 this.props 提供
+                    不使用 Redux 的 API
+                容器组件:
+                    管理数据和逻辑
+                    有内部状态
+                    使用 Redux 的 API
+
+        2.
+            mapStateToProps 是一个函数，参数有两个 : state,ownprops 
+                    state 代表容器组件的 state 对象
+                    ownprops 代表容器组件的 props 对象
+
+            mapDispatchToProps 可以是 函数或者对象
+                为函数时：
+                        有两个参数 dispatch ownprops,函数返回一个对象，对象里的每个键值对都是一个映射
+                为对象时：
+                        它的每个键名也是对应 UI 组件的同名参数，键值应该是一个函数，会被当作 Action creator ，返回的 Action 会由 Redux 自动发出。
+        
+        
+        3.connect
+            const VisibleTodoList = connect(
+                                        mapStateToProps,
+                                        mapDispatchToProps
+                                        )(TodoList)
+
+        
+        */
+
+        const {Provider,connect} = ReactRedux
+
+        // 4. 定义组建的 Reducer
+        function counter(state={count:0},action) {
+            var count = state.count
+            switch (action.type) {
+                case 'add':
+                    console.log('count', count)
+
+                    return {count:count + 1}
+    
+                default:
+                    return state
+            }
+        }
+        // 5. 生成 store 对象
+        const store = Redux.createStore(Redux.combineReducers({
+            counter,
+        }))
+
+
+        // 1. 创建 UI 组件
+        class Counter extends React.Component {
+            render(){
+                const { value, increase} = this.props
+                console.log('this.props', this.props)
+                return (
+                    <div>
+                        <h1>{value}</h1>
+                        <button onClick={increase}>+</button>
+                    </div>
+                )   
+            }
+        }
+
+        // 2. 映射数据和方法
+        const mapStateToProps = (state) => {
+            console.log('state', state)
+            return {
+                value:state.counter.count     
+                // 当使用combineReducers()的时候，取值要更深一层，此处用 state.count 将取不到count
+            }
+        }
+        const mapDispatchToProps = (dispatch) => {
+            return {
+                increase:()=> dispatch({type:'add'})
+            }
+        }
+        
+        // 3. 使用connect 生成容器组件
+        
+        const App = connect(mapStateToProps, mapDispatchToProps)(Counter)
+        
+        // 6. 将根组件用 Provider 包裹
+        ReactDOM.render(
+            <Provider store={store}>
+                <App/>
+            </Provider>,
+            document.getElementById('app'))
+    </script>
+</body>
+</html>
