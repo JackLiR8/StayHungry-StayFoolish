@@ -1,7 +1,7 @@
 ## Git 基础
 ***
 ## 一. 建立本地仓库
-### 1. 在现有项目中初始化仓库**  
+### 1. 在现有项目中初始化仓库 
 &emsp;&emsp;`$ git init`   
 
 初始化之后需要跟踪项目内的文件并提交
@@ -169,4 +169,41 @@ $ git log --pretty=format:"%h - %an, %ar"   定制要显示的记录格式
 ><font color='red'>git checkout --[file]是一个非常危险的指令，他会删除你对那个文件做出的所有修改，所以只有当你确切的不想不想要那个文件时才能使用</font> 
 
 ***
-## 五. 远程仓库的使用
+## 五. 远程仓库的使用  
+### 1. 查看远程仓库
+&emsp;&emsp;`git remote`   
+该指令会列出你指定的每一个远程服务器的简写。  
+&emsp;&emsp;`git remote -v`  
+该指令会显示需要读写远程仓库使用的Git保存的简写与其对应的URL.如果你的远程仓库不止一个，该命令会将他们全部列出。这样我们就可以拉取任何一个用户的贡献。   
+
+### 2. 添加远程仓库
+&emsp;&emsp;`git remote add [shortname] [url]`    
+
+该指令会添加一个新的远程仓库，同时指定一个你可以轻松引用的简写。你可以在命令行中使用字符串[shortname]代替整个URL。如果你想拉取某个仓库中有但你没有的信息，可以运行`git fetch [shortname]`
+
+### 3. 从远程仓库中抓取与拉取
+从远程仓库中获得数据，可以执行：  
+&emsp;&emsp;`git fetch [remote-name]`  
+这个命令会访问远程仓库，从中拉取所有你还没有的数据。如果你克隆了一个仓库，系统会自动将其添加为远程仓库并并默认以 'origin' 为简写。所以 `git fetch origin` 会抓取克隆后新推送的所有工作。
+>如果你有一个分支设置为跟踪一个远程分支，可以使用 `git pull` 命令来自动抓取然后合并远程分支到当前分支。默认情况下，`git clone` 会自动设置本地 master 分支跟踪克隆的远程仓库的 master 分支。
+
+### 4. 推送到远程仓库
+&emsp;&emsp;`git push [remote-name] [branch-name]`  
+
+    $ git remote orgin master
+
+此命令意指 将 master 分支推送到 origin 服务器
+
+><font color='orange'>只有当你有服务器的写入权限，并且之前没有人推送过时，你才能进行推送。若有人在你之前推送，那么你必须先将他们的工作拉取下来并将其合并到你的工作后才能推送</font>  
+
+### 5. 查看远程仓库
+想要查看某个远程仓库的更多信息：  
+&emsp;&emsp;`git remote show [remote-name]`
+
+### 6. 远程仓库的移除与重命名
+重命名引用的名字：
+&emsp;&emsp;`git remote rename [old_name] [new_name]`  
+移除一个远程仓库：
+&emsp;&emsp;`git remote rm [remote-name]` 
+      
+***
