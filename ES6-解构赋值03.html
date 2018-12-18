@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>解构赋值3</title>
+</head>
+<body>
+    <script>
+        /* --------- 字符串的解构赋值 ------------- */
+        /* 字符串可以被解析成类数组对象，所以字符串也可以解构赋值 */
+        const [a,b,c,d,e] = 'hello'
+        // a = "h"
+        // b = "e"
+        // c = "l"
+        // d = "l"
+        // e = "o"
+        
+        /* 类似数组的对象都有一个 length 属性，因此还可以对 length 属性解构赋值 */
+
+        let {length:len} = 'hello'      // len: 5
+        console.log('len', len)
+
+        /* ---------- 数值和布尔值的解构赋值 --------------------- */
+
+        // 解构赋值时，如果等号右边时数值和布尔值，则会先将数值和布尔值转为对象
+        // 下面的例子中，数值和布尔值包装的对象都由 toString 属性，因此 s、t 都可以取到值
+        let {toString: s} = 123;
+        let {toString: t} = true;
+
+        console.log('s', s)
+        console.log('t', t)
+        
+        console.log(s === Number.prototype.toString)        // true
+        console.log(t === Boolean.prototype.toString)       // true
+
+        /* ---------------- 函数参数的解构赋值 ---------------- */
+        function add([x,y]) {
+            return x + y
+        }
+        let result = add([1,3])         // result = 4  
+        console.log('res', result) 
+
+        [[1,2],[3,4]].map(([a,b]) => a + b)     // [ 3, 7 ]
+
+        /* 
+        函数参数的解构也可以使用默认值。
+        下面代码中，函数move的参数是一个对象，通过对这个对象进行解构，得到变量x和y的值。如果解构失败，x和y等于默认值。*/
+
+        function move({x = 0, y = 0} = {}) {
+            return [x, y];
+        }
+
+        move({x: 3, y: 8}); // [3, 8]
+        move({x: 3});       // [3, 0]
+        move({});           // [0, 0]
+        move();             // [0, 0]   
+        /* 函数参数中 = {} 的部分就是为了让move() 在不传任何东西时, x,y 也能正常解构赋值(此时 x,y 均取默认值)，
+        如果去掉此部分，前三行函数能正常运行，最后一行将会报错：Cannot destructure property `x` of 'undefined' or 'null'. 具体原理如下：*/
+
+        let {x=1,y=2} = true
+        console.log('x', x)      // x 1
+        console.log('y', y)      // y 2
+        /* 实际上，x,y 想取到默认值，true的位置可以用 数字(NaN也可以)，布尔值，字符串（空字符串）,数组，匹配不上 x,y 的对象 
+        中的任何一种代替,但是 如果用 null, undefined ,就会报错：Uncaught TypeError: Cannot destructure property `x` 
+        of 'undefined' or 'null'. ,因为你不能 null,
+        undefined 不可能有属性值 x，所以无法进行解构赋值*/
+
+         
+        /*注意，下面的写法会得到不一样的结果。 */
+
+        function move({x, y} = { x: 0, y: 0 }) {
+            return [x, y];
+        }
+
+        move({x: 3, y: 8}); // [3, 8]
+        move({x: 3});       // [3, undefined]
+        move({});           // [undefined, undefined]
+        move();             // [0, 0]
+
+        /* 上面代码是为函数move的参数指定默认值，而不是为变量x和y指定默认值，所以会得到与前一种写法不同的结果。
+         */ 
+    </script>
+</body>
+</html>
