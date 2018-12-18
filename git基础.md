@@ -1,11 +1,7 @@
 ## Git 基础
 ***
 ## 一. 建立本地仓库
-<<<<<<< HEAD
-### 1. 在现有项目中初始化仓库 
-=======
 ### 1. 在现有项目中初始化仓库  
->>>>>>> fdfa54b2ecabceca12edbcd1cbb441c57846a2d8
 &emsp;&emsp;`$ git init`   
 
 初始化之后需要跟踪项目内的文件并提交
@@ -194,7 +190,7 @@ $ git log --pretty=format:"%h - %an, %ar"   定制要显示的记录格式
 ### 4. 推送到远程仓库
 &emsp;&emsp;`git push [remote-name] [branch-name]`  
 
-    $ git remote orgin master
+    $ git push orgin master
 
 此命令意指 将 master 分支推送到 origin 服务器
 
