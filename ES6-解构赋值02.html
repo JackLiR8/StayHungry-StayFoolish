@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>对象的解构赋值</title>
+</head>
+<body>
+    <script>
+    /* --------------- 对象的解构赋值 ------------------- */
+
+    
+    /* 数组的元素是按次序排列的，变量的取值由位置决定；对象的属性没有次序
+    变量必须与属性同名，才能取到想要的值 */
+
+    let {bar,foo} = {foo:'aaa',bar:'bbb'}
+    // bar:'bbb'
+    // foo:'aaa'
+
+    /* 如果变量名与属性名不一致，则必须写成以下形式 */
+    let {a:num} = {a:1}         // num: 1
+    console.log('num:', num)
+
+    let obj = {first:'hello',last:'world'}
+    let {first:f,last:l} = obj
+    // f: 'hello'
+    // l: 'world'
+    console.log(f, l)
+
+    /* 由上面的例子可以得知，对象的解构赋值的内部机制，是先找到同名属性，然后再赋值给对应的变量，
+    真正被赋值的是后者 */
+
+    /* 对象的解构也可用于嵌套结构的对象 */
+    let obj1 = {
+        p:["hello,",{y:'world!'}]
+    }
+    let {p:[x,{y}]} = obj1
+    console.log(x, y)
+
+    /* 嵌套赋值例子 👇 */
+    let obj2 = {};
+    let arr = [];
+
+    ({ se1 : obj2.prop, se2 : arr[0]} = {se1:"hello",se2:true})
+        // obj2= {prop:'hello'}
+        // arr = [true]
+
+    /* 此处嵌套赋值必须用圆括号括起来 ，将大括号写在行首，JavaScript 会将其解释为代码块，报错。*/
+
+    /* 默认值------------------------------------------------------ */
+    let {x = 3} = {}        // x = 3
+    let {x,y = 2} = {x:1}   // x = 1,y = 2
+    let {x:y = 3} = {}      // y = 3
+    let {x:y = 3} = {x:5}   // y = 5
+
+    /* 同数组的解构一样，只有当对象的属性值严格等于 undefined 的时候，默认值才生效 
+    */
+
+    /* 如果解构模式是嵌套的对象，而且子对象所在的父属性不存在，那么将会报错。
+            let {foo: {bar}} = {baz: 'baz'};
+            上面代码中，等号左边对象的foo属性，对应一个子对象。该子对象的bar属性，解构时会报错。原因很简单，因为foo这时等于undefined，再取子属性就会报错。 
+
+
+    如果要将一个已经声明的变量用于解构赋值，必须非常小心。
+
+    错误的写法：
+            let x;
+            {x} = {x: 1};       // SyntaxError: syntax error
+
+            上面代码的写法会报错，因为 JavaScript 引擎会将{x}理解成一个代码块，从而发生语法错误。只有不将大括号写在行首，避免 JavaScript 将其解释为代码块，才能解决这个问题。
+    正确的写法：
+            let x;
+            ({x} = {x: 1});
+    */
+
+    /* 数组是特殊的对象，可以对数组进行对象的解构赋值，此时数组的下表将作为键值 */
+    let arr1 = [1,2,3]
+    let {0:first1,[arr1.length - 1]:last1} = arr
+    // first1: 1
+    // last1: 3
+    </script>
+</body>
+</html>
