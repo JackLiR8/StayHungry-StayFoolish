@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Map</title>
+</head>
+<body>
+    <script>
+    /* Map数据结构，类似于对象，也是键值对的结合。但是‘键’的范围不仅限于字符串，各种类型的值(包括对象)都可以当做键。Object里面是“字符串--值”的结构，Map里面是“值--值”的对应结构，是一种更完美的 Hash结构实现 
+    */
+
+        const map = new Map()
+        const o = {p:'hello'}
+        
+        map.set(o,'content')
+        console.log('map.get(o):',map.get(o) )
+
+        map.has(o)      // true
+        map.delete(o)   // true
+        map.has(o)      // false
+
+
+    /* Map构造函数可以接受数组作为参数 */
+        const m = new Map([
+            ['name','jack'],
+            ['title','author']
+        ]);
+
+        console.log('m.size',m.size )       // 2
+        console.log(m.get('name'))          // 'jack'
+        console.log(m.get('title'))         // author
+
+        // Map构造函数接受数组作为数组时，实际上执行以下算法
+        const items = [
+            ['name','jack'],
+            ['title','hello']
+        ]
+        const m1 = new Map()
+        items.forEach(
+            ([key,value]) => m1.set(key,value)
+        )
+        console.log('m1', m1)       // Map(2) {"name" => "jack", "title" => "hello"}
+
+        // 不仅仅是数组，任何具有 Iterator 接口、且每个成员都是一个双元素的数组的数据结构,都可以当作Map构造
+        // 函数的参数。这就是说，Set和Map都可以用来生成新的 Map。
+
+        const s = new Set([
+            ['foo',1],
+            ['bar',2]
+        ])
+        console.log('s', s)
+        const ma1 = new Map(s);
+        console.log('ma1', ma1)
+        ma1.get('foo')      // 1
+
+        const ma2 = new Map([['baz',3]])
+        const ma3 = new Map(ma2)
+        ma3.get('baz')       // 3
+        console.log('ma3', ma3)
+
+        /* 
+        Map 和 Set 数据结构对比
+        s： Set(2) {Array(2), Array(2)}
+                size: 2
+                __proto__: Set
+                [[Entries]]: Array(2)
+                    0: Array(2)
+                        value: (2) ["foo", 1]
+                    1: Array(2)
+                        value: (2) ["bar", 2]
+                    length: 2
+
+        ma1:Map(2) {"foo" => 1, "bar" => 2}
+                size: 2
+                __proto__: Map
+                [[Entries]]: Array(2)
+                    0: {"foo" => 1}
+                        key: "foo"
+                        value: 1
+                    1: {"bar" => 2}
+                        key: "bar"
+                        value: 2
+                    length: 2
+         */
+
+    /* 如果对一个键多次赋值，后面的值将会覆盖前面的值 ;读取未知的键，则返回undefined*/
+            const map1 = new Map()
+            map1.set(1,'aaa').set(1,'bbb')
+            console.log('map1.get(1)', map1.get(1))        // 'bbb'
+            console.log('map1.get(2)', map1.get(2))         // undefined
+
+    /* 注意：只有对同一个对象的引用，Map结构才将其视为同一个键！！！ */
+        const map2 = new Map()
+        map2.set(['a'],11)
+        console.log("map.get(['a'])", map2.get(['a']))      // undefined
+        /* 上面代码中，set 和 get 方法表面上是针对同一个键，但实际上是两个，因为他们的地址不一样，因此get无法读取该键，
+        返回undefined，下面的代码可以变通实现上面的目的 */
+
+        const arr = ['b']
+        map2.set(arr,22)
+        console.log('map2.get(arr)', map2.get(arr))     // 22
+
+    /* 所以 值相等的两个实例，在Map中被视为两个键 */
+        const map3 = new Map()
+        const k1 = ['a']
+        const k2 = ['a']
+
+        map3
+        .set(k1,111)
+        .set(k2,222)
+
+        console.log('map3', map3)
+        /* 
+        map3:   Map(2)
+                    size: (...)
+                    __proto__: Map
+                    [[Entries]]: Array(2)
+                        0: {Array(1) => 111}
+                            key: ["a"]
+                            value: 111
+                        1: {Array(1) => 222}
+                            key: ["a"]
+                            value: 222
+                        length: 2
+         */  
+
+    /* 
+        Map 的键实际上是跟内存地址绑定的，只要内存地址不一样，就视为两个键。
+        如果Map 的键是一个简单类型的值，则只要两个值严格相等，Map 就会把它视为一个键，例如： 0 和 -0 是一个键， 
+        true 和 'true' 是两个键，undefined 和 null 是两个键，特殊的 NaN 虽然不严格等于自身，但是在 Set 和 
+        Map 里的算法里是等于自身的，所以会被视为一个键
+     */  
+    </script>
+</body>
+</html>
