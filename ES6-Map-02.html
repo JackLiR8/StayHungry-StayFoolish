@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+    /* ------------------------ Map 实例的属性和操作方法 ------------------------- */
+        /* 
+        1. size属性      返回 Map 结构的成员总数
+        2. set(key,value) 
+                设置键名 key 对应的键值 value, 返回整个Map结构
+                set方法返回的是当前的Map对象，因此可以采用链式调用
+        3.get(key)
+                读取 key 对应的键值，如果找不到 key 返回undefined
+        4.has(key)
+                判断某个键是否在当前Map对象中，返回布尔值
+        5.delete(key)
+                删除某个键，返回true.删除不成功返回false
+        6.clear()
+                清空Map，没有返回值
+        */
+
+    /* ------------------------------- 遍历方法 ---------------------------------- */
+        /* 
+        Map 结构原生提供三个遍历器生成函数和一个遍历方法。
+
+            keys()：返回键名的遍历器。
+            values()：返回键值的遍历器。
+            entries()：返回键和值的遍历器。 
+                    是 Map 结构的默认遍历器接口，map[Symbol.iterator] === map.entries
+            forEach()：遍历 Map 的所有成员。
+
+        需要特别注意的是，Map 的遍历顺序就是插入顺序。
+         */
+        
+        const map = new Map([
+            ['kobe','noPassLook'],
+            ['james','noLookPass']
+        ]);
+
+        for (let key of map.keys()){
+            console.log(key)
+        }
+        // 'kobe'
+        // 'james'
+
+        for (let value of map.values()){
+            console.log(value)
+        }
+        // 'noPassLook'
+        // 'noLookPass'
+
+        for (let item of map.entries()){
+            console.log(item)
+        }
+        // ["kobe", "noPassLook"]
+        // ["james", "noLookPass"]
+                // item 可以分为[key,value]，分别输出键和值
+        for (let [key,value] of map){
+            console.log(key, value)
+        }
+        // "kobe" "noPassLook"
+        // "james" "noLookPass"
+        console.log(map[Symbol.iterator] === map.entries)
+        console.log('map', map)
+
+    /* ---------------------------- Map 结构转为数组结构 ------------------------------ */
+        const m = new Map([
+            [1,"one"],
+            [2,"two"],
+            [3,"three"]
+        ]);
+
+        console.log([...m.keys()] )    // [1,2,3]
+        console.log([...m.values()])    // ["one","two","three"]
+        console.log([...m.entries()])
+        console.log([...m])             // [[1,"one"],[2,"two"],[3,"three"]]
+
+        /* 结合数组的 map方法、filter方法，可以实现Map结构的遍历和过滤 */
+        const m0 = new Map()
+            .set(1,'a')
+            .set(2,'b')
+            .set(3,'c')
+        console.log(m0)
+        const m1 = new Map(
+            [...m0].filter(([key,value]) => key < 3)
+        )
+        console.log(m1)     // Map(2) {1 => "a", 2 => "b"}
+        const m2 = new Map(
+            [...m0].map(([key,value])=> [key*2,value+'!'])
+        )
+        console.log(m2)     // Map(3) {2 => "a!", 4 => "b!", 6 => "c!"}
+    </script>
+</body>
+</html>
