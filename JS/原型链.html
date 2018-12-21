@@ -10,7 +10,56 @@
     <script>
     /* 原型、原型链
         每个函数都有属性prototype
-        每一个对象都有属性__proto__,该对象的__proto__的值是创建该对象的构造函数的prototype属性值 */   
+        每一个对象都有属性__proto__,该对象的__proto__的值是创建该对象的构造函数的prototype属性值 */  
+
+        function fun(){
+            this.a = 1;
+            this.b = 2
+        }
+        let o = new fun();
+        console.log('o:', o)
+        // 在f函数的原型上定义属性
+        fun.prototype.b = 3;
+        fun.prototype.c = 4;
+        console.log(o.__proto__)
+        console.log('o.constructor.prototype:', o.constructor.prototype)
+        // o.__proto__ === fun.prototype === o.constructor.prototype
+
+        console.log(o.__proto__.__proto__ === Object.prototype )    // true
+
+        // 原型链：{a：1，b:2} ---> {b:3,c:4} ---> Object.prototype ---> null
+        console.log('o.a', o.a)     // 1
+        console.log('o.b', o.b)     // 2 因为‘属性屏蔽’，原型链上的 'b' 属性不会被访问到
+        console.log('o.__proto__.b', o.__proto__.b)     // 3    指明是原型链上的 b 则可以访问到
+        console.log('o.c',o.c)      // 4    c 不是 o 的自身属性，那么在o.[[Prototype]]上查找
+        console.log('o.d', o.d)     // undefined    o 的自身属性中没有 d ，在原型链上层层查找，直到一个对象的原型对象为 null,则返回 undefined
+
+    /* 继承的函数被调用时，this 指向的时当前的对象，而不是当前对象的原型对象 */
+        var obj = {
+            a:2,
+            m:function (){
+                return this.a + 1
+            }
+        }
+
+        console.log('obj.m()', obj.m())     // 3    this 指向 obj
+
+        var p = Object.create(obj)      // p 是一个继承自 obj 的对象
+
+        p.a = 4
+        console.log('p.m()', p.m())     // 5    this 指向 p
+
+    /* ------------------------- 使用不同方法创建对象和生成原型链 -------------------------------- */
+
+        // 1. 语法结构创建的对象
+            var obj1 = {a:1}
+            console.log(obj1.__proto__ === Object.prototype)        // true
+            /* 
+                obj1 继承了 Object.prototype 上的所有属性
+                obj1 自身没有 hasOwnProperty 的属性，该属性是 Object.prototype 的属性，即 obj1 继承了它的原型的 hasOwnProperty 属性
+                Object.prototype 的原型为 null
+            
+            */
     </script>
 </body>
 </html>
