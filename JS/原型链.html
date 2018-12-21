@@ -58,8 +58,94 @@
                 obj1 继承了 Object.prototype 上的所有属性
                 obj1 自身没有 hasOwnProperty 的属性，该属性是 Object.prototype 的属性，即 obj1 继承了它的原型的 hasOwnProperty 属性
                 Object.prototype 的原型为 null
-            
             */
+            
+            var arr = [1,2,3]
+            console.log(arr.__proto__ === Array.prototype)  // true
+            /*  数组都继承于 Array.prototype
+                原型链： arr ---> Array.prototype ---> Object.prototype ---> null
+            */
+
+        // 2. 构造器创建的对象
+            /* 在 JavaScript 中，构造器其实就是一个普通的函数。当使用 new 操作符 来作用这个函数时，它就可以被称为构造方法（构造函数）。 */
+            function G(){
+                this.a = [1,2],
+                this.b = [2,3]
+            };
+
+            G.prototype = {
+                c:function(v){
+                    this.a.push(v)
+                }
+            };
+
+            var g = new G()
+            console.log('g', g)         // G {a: Array(2), b: Array(2)}
+            console.log(g.__proto__ === G.prototype)     // true
+            console.log(G.prototype.__proto__ === Object.prototype)     // true
+            console.log(Object.prototype.__proto__)                     // null
+            g.c(6);     // 调用原型链上的 c()方法
+            console.log('g.a', g.a)     // [1,2,6]
+
+            /*  g 是被生成的对象，它的自身属性有 'a','b'. 
+                ！！！注意实例 g 和 构造函数 G 的原型链是两码事，不可混淆
+                    实例g的原型链： g ---> G.prototype ---> Object.prototype ---> null
+                    函数G的原型链： G ---> Function.prototype ---> Object.prototype ---> null
+            */
+
+
+        // 3. Object.create() 创建的对象
+            /* Object.create()用于创建一个新对象，新对象的原型就是调用 Object.create()时传入的第一个参数
+             */
+            var a1 = {a:'hello'}
+            // a1 ---> Object.prototype ---> null
+            var a2 = Object.create(a1)
+            console.log(a2.a)           // 'hello'
+            // a2 ---> a1 ---> Object.prototype ---> null
+            var a3 = Object.create(a2)
+            console.log(a3.a)           // 'hello'
+            // a3 ---> a2 ---> a1 ---> Object.prototype ---> null
+
+        // 4. class 关键字创建的对象
+            class c1 {
+                constructor(h,w){
+                    this.height = h
+                    this.width = w
+                }
+            }
+            class c2 extends c1 {
+                constructor(props){
+                    super(props)
+                }
+            }
+            var b1 = new c2(2,3)
+            console.log(b1.height)      // 2    height 继承于c1
+            // 验证构造类 c2 的原型链
+            console.log( c2.__proto__ === c1)       // true
+            console.log(c1.__proto__ === Function.prototype)        // true
+            console.log(Function.prototype.__proto__ === Object.prototype)      // true
+            console.log(Object.prototype.__proto__)         // null
+            // 验证实例 b1 的原型链
+            console.log(b1.__proto__ === c2.prototype)      // true
+            console.log(c2.prototype.__proto__ === c1.prototype)    // true
+            console.log(c1.prototype.__proto__ === Object.prototype)    // true
+            /*
+            ！！！注意实例 b1 和 构造类 c2 的原型链的不同 
+                实例 b1 原型链： b1 ---> c2.prototype ---> c1.prototype --->Object.prototype ---> null
+                构造类c2原型链： c2 ---> c1 --->  Function.prototype ---> Object.prototype ---> null
+            */
+
+    /* ---------------------------- 性能 ------------------------------------------ */
+            /* 在原型链上查找属性比较耗时，对性能有副作用，这在性能要求苛刻的情况下很重要。另外，试图访问不存在的属性时会遍历整个原型链。
+            
+            要检查对象是否具有自己定义的某个属性，而不是其原型链上的属性，可以用从 Object.prototype 上继承的 hasOwnProperty() 方法 
+            hasOwnProperty 是 JavaScript 中处理属性并且不会遍历原型链的方法之一。(另一种方法: Object.keys())
+
+            注意：检查属性是否undefined还不够。该属性可能存在，但其值恰好设置为undefined
+            */
+
+            console.log(g.hasOwnProperty('a'))  // true
+            console.log(g.hasOwnProperty('c'))  // false    g.c 是存在的，但是 c 在 g 的原型连上
     </script>
 </body>
 </html>
