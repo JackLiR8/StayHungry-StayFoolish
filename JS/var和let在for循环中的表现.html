@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>var-let</title>
+</head>
+<body>
+    <script>
+    /* for 和 let 组合在一起使用时会形成块级作用域 */
+
+        // 1. 
+        var a1 = [];
+        for (var i = 0;i < 5; i++){
+            a1.push(function(){
+                console.log(i)
+            })
+        }
+        for(var j = 0; j < 5; j++){
+            a1[j]()                 // 5,5,5,5,5
+        }
+        
+            /* 以上代码，for循环中使用 var 声明变量 i, i 是全局变量，所以每次循环，全局中的 i 都会改变，最后循环结束时 i = 5,
+            所以当 异步打印 i 时，结果是 5 个 5。注意一定是异步打印，如果同步打印，结果正常，如下：
+                    for (var i = 0;i<5;i++) {
+                        console.log(i)
+                    }
+                    这样就会打印出 0,1,2,3,4
+            */
+
+        // 2. 若想解决 1中的问题，最简单的方法是把 var 换成 let ,还可以借助闭包
+        var a2 = [];
+        for (var t = 0;t<5;t++){
+            (function(){
+                var _t = t;
+                a2.push(function(){
+                    console.log(_t)
+                })
+            })()
+        }
+        for (var a = 0;a<5;a++){
+            a2[a]()             // 0,1,2,3,4
+        }
+        /* 
+            上面例子中，每次循环，都会生成一个私有作用域，用于存储 t(存为_t) 和 打印 t 的函数，所以调用这些函数时，
+            他们回到对应的私有作用域读取 t 的值，故打印结果正常。let 原理与此相同
+         */
+
+    </script>
+</body>
+</html>
