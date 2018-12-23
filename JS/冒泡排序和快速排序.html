@@ -24,25 +24,24 @@
         console.log(arr) // [0,1,2,3,4,5]
 
         // 2. 快速排序
-        var arr1 = [3,0,2,1,5,4]
+        var arr1 = [3,0,2,6,8,7,1,5,4]
        function quickSort(arr) {
-           var la = [];
-           var ma = [];
-           var flag = arr[0];
-           debugger;
-           for (let i=0;i<arr.length;i++){
-               if(arr[i]<flag){
-                   la.push(arr[i])
-                   console.log(la)
-               }else if (arr[i] > flag){
-                   ma.push(arr[i])
-                   console.log(ma)
+           if(arr.length <= 1){return arr};
+           var [la,ma] = [[],[]];
+           var flag = arr.shift();      // arr[0] 当作 flag
+        //    debugger;
+           arr.forEach(e => {
+               if(e<flag){
+                   la.push(e)
+               }else {
+                   ma.push(e)
                }
-           }
-           return arr1 = [quickSort(la),flag,quickSort(ma)]
+           });
+           
+           return [...quickSort(la),flag,...quickSort(ma)]
        }
-       quickSort(arr1)
-       console.log(arr1)
+       
+       console.log(quickSort(arr1))
     </script>
 </body>
 </html>
