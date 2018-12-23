@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+    /*      当我们使用 new 运算符调用构造函数构造实例时，经历4个步骤：
+                1）创建一个新对象
+                2）将构造函数的作用域赋给这个新对象(this 指向新对象)，执行构造函数中的代码，为这个新对象添加属性
+                3）设置原型链，instance.__proto__ === Function.prototype
+                4）返回新对象
+
+            new 做的事：
+                1）创建新的空对象
+                2）把 this 绑定到实例上
+                3）把新对象的原型 __proto__ 指向构造函数的原型对象(instance.__proto__ === Function.prototype)
+                4）给函数末尾添加一句 return this,返回新对象
+
+            关于构造函数的返回值问题：
+                1）如果返回值是基本数据类型(包括没有返回值时默认返回undefined的情况)，则抛弃此返回值，返回this（即此次生产的实例）
+                2）如果返回值是引用数据类型，则就返回此数据
+    
+     */
+    </script>
+</body>
+</html>
