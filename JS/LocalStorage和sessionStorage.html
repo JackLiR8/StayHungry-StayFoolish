@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+    /* --------------------------- localStorage ------------------------------ */
+        /*  只读的 localStorage 允许访问一个 Document 的远端(origin)对象 Storage，数据存储为夸浏览器会话 
+        
+        
+        localStorage 和 sessionStorage 一样，都遵循同源策略
+                方法：  setItem() 增、改
+                        removeItem() 删
+                        getItem() 查        查不到对应的键时，返回null
+        */
+
+        localStorage.clear()
+        localStorage.setItem('name','jack')
+        localStorage.setItem('girlfriend','郭碧婷')
+        localStorage.setItem('car','AudiR8')
+        console.log(localStorage)   // Storage {car: "AudiR8", girlfriend: "郭碧婷", name: "jack", length: 3}
+        console.log(localStorage.getItem('girlfriend'))   // '郭碧婷'
+        console.log(localStorage.getItem('car'))      // AudiR8
+
+        localStorage.removeItem('car')
+        console.log(localStorage.getItem('car'))      // null
+        console.log(localStorage.getItem('heat'))     // null
+        console.log(localStorage)   // Storage {girlfriend: "郭碧婷", name: "jack", length: 2}
+
+        console.log(localStorage.__proto__ === Storage.prototype) //  true
+        console.log(Storage.prototype.__proto__ === Object.prototype)   // true
+        console.log(Object.prototype.__proto__ === null)    // true
+
+        let your_storage = window.localStorage
+        your_storage.setItem('star','kobe')
+        console.log(localStorage)   // Storage {girlfriend: "郭碧婷", name: "jack", star: "kobe", length: 3}
+        // 只有一个 localStorage, 不管你是把它赋值给什么变量，你操作的始终都是 localStorage
+
+        /* 由以上三行代码，可见 localStorage实例的原型链：
+            localStorage ---> Storage.prototype ---> Object.prototype ---> null
+         */
+
+    /* ---------------------------- sessionStorage ----------------------------- */
+        sessionStorage.setItem('name','curry')
+        
+    </script>
+</body>
+</html>
