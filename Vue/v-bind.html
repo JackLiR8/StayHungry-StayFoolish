@@ -11,6 +11,8 @@
         <h1>{{title}}</h1>
         <input type="text" :value="content">
         <input type="text" v-model="content">
+        <!-- v-bind 只是将属性值设为变量，修改第一个 input 里的内容,并不会引起 data 中content的改变  
+            v-model则是一种双向的数据绑定，修改第二个 input 里的内容，会改变 data 中的content -->
     </div>
     <script src="./vue.min.js"></script>
     <script>
