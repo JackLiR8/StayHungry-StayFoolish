@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>computed</title>
+</head>
+<body>
+    <div id="app">
+        <input type="text" v-model="quantity">
+        <input type="text" v-model="price">
+        <input :value="total"></input>
+        <h1>{{priceChange}}</h1>
+    </div>
+    <script src="./vue.min.js"></script>
+    <script>
+        new Vue({
+            el:'#app',
+            data(){
+                return {
+                    price:1,
+                    quantity:10,
+                    priceChange:'价格变化'
+                }
+            },
+            
+            computed: {
+                /* 计算属性中的方法，只有当数据发生变化时才会重新调用 */
+                total(){
+                    // 返回计算后的数据
+                    return this.price * this.quantity
+                }
+            },
+            watch: {
+                // 用于对 data 中的数据进行监听
+                price:function (newVal,oldVal){
+                    this.priceChange =  `历史价：${oldVal},最新价：${newVal}`
+                }
+            },
+        })
+        /**
+             * 计算属性的特点：
+             *  1）会基于原始数据缓存，不会因此重复使用而重新调用
+             *  2) 定义计算属性的方法中只能同步计算，不能有异步操作
+             *  3) 计算属性如果只定义成方法，则不能被修改
+             *      如果需要直接修改计算属性，则需要定义成对象,定义get和set方法
+             */
+
+        /* 
+            watch和computed各自处理的数据关系场景不同
+                watch擅长处理的场景：
+                        一个数据影响多个数据
+                        监听数据的变化
+
+                computed擅长处理的场景：
+                        一个数据受多个数据影响
+
+            使用 computed 的好处
+                当我们改变 number 时，整个应用会重新渲染，vue 会被数据重新渲染到 dom 中。这时，如果我们使用 getName 方法，
+                随着渲染，方法也会被调用，而 computed 不会重新进行计算，从而性能开销比较小。当新的值需要大量计算才能得到，缓存
+                的意义就非常大。
+
+                如果 computed 所依赖的数据发生改变时，计算属性才会重新计算，并进行缓存；当改变其他数据时，computed 属性 
+                并不会重新计算，从而提升性能。
+
+                当我们拿到的值需要进行一定处理使用时，就可以使用 computed。
+            
+        */
+    </script>
+</body>
+</html>
