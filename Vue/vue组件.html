@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>组件</title>
+</head>
+<body>
+    <div id="app"></div>
+    <script src="./vue.min.js"></script>
+    <script>
+        var Com1 = {
+            template:`<h1>{{title}}</h1>`,
+            data(){
+                return{
+                    title:'title'
+                }
+            }
+        }
+        var Com2 = {
+            template:`<h3>{{msg}}</h3>`,
+            data(){
+                return{
+                    msg:'hello'
+                }
+            }
+        }
+        /* vue 中，引用组件要写双标签，否则只会挂载第一个 */
+        new Vue({
+            el:'#app',
+            template:`
+                <div>
+                    <Com1></Com1>
+                    <Com2></Com2>    
+                </div>
+            `,
+            components:{
+                Com1,
+                Com2,
+            }
+        })
+    </script>
+</body>
+</html>
