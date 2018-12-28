@@ -23,6 +23,7 @@ $ git commit -m 'initial project version'
 ### 1. 检查当前文件状态
 &emsp;&emsp;`$ git status`
 
+
 ### 2. 跟踪新文件
 &emsp;&emsp;`$ git add [file]`
 
