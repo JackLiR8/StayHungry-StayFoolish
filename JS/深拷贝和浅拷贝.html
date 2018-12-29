@@ -49,12 +49,33 @@
     /* --------------------------------------- 深复制实现方式 --------------------------------------- */
         // (1) JSON.parse(JSON.stringify())
 
-            /* 原理：用 JSON.stringify 将对象转为 JSON 字符串，再用JSON.parse 把字符串解析成对象。产生了新的对象，新对象会开辟新的栈，实现深拷贝 */
+            /* 原理：用 JSON.stringify 将对象转为 JSON 字符串，再用JSON.parse 把字符串解析成对象。产生了新的对象，新对象会开辟新的栈，实现深拷贝
+            
+                这种方法可以实现对象和数组的深复制，但是不能处理函数。因为JSON.stringify()方法是将一个JavaScript值（对象或者数组）转为一个JSON 字符串，不能接受函数
+            */
 
             let arr = [{name:'kobe'},1,2]
             let arr1 = JSON.parse(JSON.stringify(arr))
+
             console.log(arr,arr1)
             arr1[0].name = 'curry'
+
+            /* 
+            arr:    (3) [{…}, 1, 2]
+                        0: {name: "kobe"}
+                        1: 1
+                        2: 2
+                        length: 3
+                        __proto__: Array(0) 
+            arr1:   (3) [{…}, 1, 2]
+                        0: {name: "curry"}
+                        1: 1
+                        2: 2
+                        length: 3
+                        __proto__: Array(0)
+            */
+
+        // (2) 手写递归方法
         
     </script>
 </body>
