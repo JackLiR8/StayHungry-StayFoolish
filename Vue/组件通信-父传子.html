@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>父传子</title>
+</head>
+<body>
+    <div id="app">
+        <parent></parent>
+    </div>
+    <script src="./vue.min.js"></script>
+    <script>
+        /* 父传子的组建通信：在父组件内使用子组件时，给子组件定义一个属性(例如：prop='111'),然后在子组件里
+        用 props 属性“接住”这个属性名，把这个属性名当作变量使用 */
+
+         /**
+         * Props的特点：
+         * 1）在子组件中不能直接修改
+         * 2）props可以传递的数据类型: String,Boolean,Number,Array,Object, 不能传递函数
+         * 可以设置props验证，即强制规定某个prop值为特定的类型或特定的值
+         *       props:{
+                    msg:{
+                        type:String,    //必填的字符
+                        required:true
+                    }
+                }
+         */
+
+        let child = {
+            template:`
+                <div>
+                    <p>this is a child</p>
+                    <h3>{{msg}}</h3>    
+                </div>
+            `,
+            props:['msg']
+        }
+
+        let parent = {
+            template:`
+                <div>
+                    <h1>this is parent</h1>
+                    <hr/>
+                    <child :msg='message'></child>      
+                </div>
+            `,
+            components:{        // 组件在哪里用就在哪里注册
+                child
+            },
+
+            data(){
+                return{
+                    message:'hello,baby'
+                }
+            }
+        }
+        
+        new Vue({
+            el:'#app',
+            components:{
+                parent,
+            }
+        })
+    </script>
+</body>
+</html>

@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>兄弟组件通信</title>
+</head>
+<body>
+    <div id="app"></div>
+    <script src="./vue.min.js"></script>
+    <script>
+        /* 
+            bus 实现平级组件传值：
+                    1. 创建一个全局的 Vue对象作为事件总线， let bus = new Vue()
+                    2. 在发送组件里给button设置一个点击事件，响应点击事件的处理函数中，用$emit()触发一个自定义事件，并传递一个参数
+                    3. 在接收组件里，在周期钩子函数 mouted()或created()里用$on()监听上述的自定义事件，并在回调函数中处理接收到的参数
+        */
+        let bus = new Vue();        // step1
+
+        let com1 = {
+            template:`
+                <div>
+                    <input v-model='msg'/>  
+                    <button @click = 'sendMsg'>向平级组件传值</button>  
+                </div>
+            `,
+            data(){
+                return {
+                    msg : 'com1'
+                }
+            },
+            methods:{
+                sendMsg(){
+                    bus.$emit('receiveMsg',this.msg)    // step2
+                }
+            }
+        };
+        let com2 = {
+            template:`
+                <div>
+                    <h1>{{msg}}</h1>    
+                </div>
+            `,
+            data(){
+                return {
+                    msg : 'com2'
+                }
+            },
+            created(){
+                let _this = this
+                bus.$on('receiveMsg',function(data){        // step3
+                    _this.msg = data
+                    console.log('组件2里bus.$on监听到了', data)
+                    console.log('组件2里this.msg', _this.msg)
+                })         
+                 /* 👆 一定要特别注意bus.$on 中回调函数里的 this 的指向，若没有设 _this = this 而直接用 this, 
+                 this 指向 bus 而不是这个组件，此处也可以直接用箭头函数，让this指向父级作用域*/
+            }
+        }
+        new Vue({
+            el:'#app',
+            template:`
+                <div>
+                    <com1></com1>
+                    <hr/>
+                    <com2></com2>    
+                </div>
+            `,
+            components:{
+                com1,
+                com2
+            },
+            created(){
+                bus.$on('receiveMsg',function(data){
+                    this.msg = data
+                    console.log('app里bus.$on监听到了', data)
+                    console.log('app里this.msg', this.msg)
+                })
+            }
+        })
+    </script>
+</body>
+</html>
