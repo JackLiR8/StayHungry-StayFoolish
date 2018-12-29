@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        let player = {name:'kobe',age:40};
+
+        let player1 = player;    
+        player1.age = 41;
+        console.log('player:', player)      // {name:'kobe',age:41}
+        /* 将引用数据类型赋值给别的变量时，赋的值其实是引用地址，所以改变 player1 会改变该地址指向的堆中的对向，导致 player 也发生改变 */
+
+        player.age = 40;
+
+        let player2 = {}
+        for (let key in player){
+            player2[key] = player[key]
+        }
+        
+        player2.name = 'curry'
+        player2.age = 30
+        console.log('player', player)       // {name: "kobe", age: 40}
+        console.log('player2', player2)     // {name: "curry", age: 30}
+        /* 通过 for...in 遍历原对象，player2 是对 player 的深复制，所以改变 player2 并不会影响 player 的数据*/
+
+    /*------------------------------- 浅拷贝的实现方式 ---------------------------------*/
+        // (1) Object.assign()
+            var p1 = {a:{name:'kobe'}}
+            var p2 = Object.assign({},p1)
+            p2.a.name = 'curry'
+            console.log('p1', p1)       // {a:{name:'curry'}}  由此可见属性值是引用数据类型时，此方法只是浅拷贝
+            
+            /* 注意是看属性值是不是引用数据类型！！，若属性值是基本数据类型，则进行的是深拷贝。如下： */
+            var p3 = {name:'kobe'}
+            var p4 = Object.assign({},p3)
+            p4.name = 'curry'
+            console.log(p3)     // {name:'kobe'}
+            console.log(p4)     // {name:'curry'}
+        
+    </script>
+</body>
+</html>
