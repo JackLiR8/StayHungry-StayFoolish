@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>函数绑定运算符</title>
+</head>
+<body>
+    <script src="./babel.js"></script>
+    <script type="text/babel">
+        /* 
+            '函数绑定'(function bind)运算符,用来取代 call,apply,bind 调用。
+            用法： 
+                并排双冒号(::),双冒号左边是一个对象，右边是一个函数。该运算符会自动将左边的对
+                象作为上下文环境(即this 对象)绑定到右边的函数上
+
+            1. 如果双冒号左边为空，右边是一个对象的方法，则等于将该方法绑定到该对象上
+                ::obj.foo  等同于 obj::obj.foo
+            2. 函数绑定运算符返回的是原对象，所以可以链式调用
+         */
+
+        var obj = {'name':'jack'};
+        var name = 'kobe';
+        let print = function (){
+            console.log(this.name)
+        };
+        obj::print()  // 'jack'
+    </script>
+</body>
+</html>
