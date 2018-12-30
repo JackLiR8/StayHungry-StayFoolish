@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        let str = ' hello world '
+
+        // 1. str.trim()    去除字符串两端的空格
+        let str1 = str.trim()
+        console.log('str1', '|'+str1+'|')   // |hello world|
+
+        // 2. str.replace(/\s/g,'')  去除所有空格 
+        let str2 = str.replace(/\s/g,'')
+        console.log('str2', '|'+str2+'|')   // |helloworld|
+        
+        // 3. 字符串分割 str.split()
+        /* 语法：
+                str.split(separator[,limit])
+
+                参数：
+                sepatator:指定每个拆分点的位置，可以是字符串或者正则表达式
+                    如果省略该参数，则返回一个把整个字符串当作一个元素的数组(见case3)
+                    如果该参数时空字符串，则返回把每个字符(空格也会返回一个字符串' ')当作一个元素的数组
+                limit:一个整数，限定返回的分割片段数量
+
+         */
+
+        let new_str = 'hello,world,I,am,jack'
+        console.log(new_str.split(','))     // ["hello", "world", "I", "am", "jack"]
+        console.log(new_str.split(',',2))   // ["hello", "world"]
+        console.log(new_str.split())        // ["hello,world,I,am,jack"]        case3
+        console.log(new_str.split(''))      // ['h','e','l'...,'c','k']
+
+        // 4. str.indexOf()
+        /*  str.indexOf 方法返回调用此方法的 str 中第一次出现指定值的索引
+            如果找不到，则返回 -1
+
+            语法：
+                str.indexOf(searchValue[,fromIndex])
+         */
+
+        let s = 'hello'
+        console.log(s.indexOf('l'))     // 2
+        console.log(s.indexOf('l',3))   // 3
+        console.log(s.lastIndexOf('l')) // 3    lastIndexOf()从后往前开始匹配数第一个，返回的索引是正常(正序)的索引
+
+        // 5. str.charAt()
+        /* 返回指定索引对应的字符
+                语法：
+                    str.charAt(index)
+                        index 默认值为 0
+         */
+         console.log(s.charAt(2))   // 'l'
+
+        // 6. str.concat()
+        /* 
+            将一个或者多个字符串与源字符串进行拼接，并返回一个新字符串
+
+            语法：
+                str.concat(str1[,str2[,str3[,...,strn]]])  
+         */
+        let s1 = 'hello'
+        let s2 = 'World'
+        console.log(s1.concat(s2))      // 'helloWorld'
+    </script>
+</body>
+</html>
