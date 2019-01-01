@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>嵌套路由</title>
+</head>
+<body>
+    <div id='app'>
+        <router-link to="/home">home</router-link>
+        <router-link to="/goods">goods</router-link>
+        <keep-alive>
+            <router-view></router-view>
+        </keep-alive>
+    </div>
+    <script src="./vue.min.js"></script>
+    <script src="./vue-router.js"></script>
+    <script>
+        /* 
+            使用嵌套路由时注意事项：
+                    1. 组件里也要配置路由视图入口
+                    2. children里配置路径时，直接写就好。例如在 '/home' 路由里配置子路由的路径时， children：{path:'page1'},
+                    在子组件的 router-link 里也直接配置 to='page1' 就可以，无需从根路径写起。这样当进入此路由的时候，路径就自动配
+                    成了/home/page1 。配置子路径时无需加 / (加上 / 就代表根路径)    
+        */
+        const home = {
+            template:`
+                <div>
+                    <h1>home</h1>
+                    <router-link to="phone">phone</router-link>
+                    <router-link to="tv">tv</router-link>
+                    <router-view></router-view>
+                </div>
+            `,
+        }
+        const goods = {
+            template:`
+                <div>
+                    <h1>page1</h1>
+                    <router-link to="good1">good1</router-link>
+                    <router-link to="good2">good2</router-link>
+                    <router-view></router-view>
+                </div>
+            `,
+        }
+        const router = new VueRouter({
+            mode:'hash',
+            routes:[{
+                path:"/home",
+                component:home,
+                children:[{
+                    path:"phone",
+                    component:{
+                        template:`<div><h2>here are phones</h2></div>`
+                    }
+                },{
+                    path:"tv",
+                    component:{
+                        template:`<h2>here are tvs</h2>`
+                    }
+                },{
+                    path:"/home",
+                    redirect:"phone"
+                }]
+            },{
+                path:"/goods",
+                component:goods,
+                children:[{
+                    path:"good1",       // children里的嵌套路由路径不需要加 '/',此处直接写'good1' 就行， 如果加上 / 就代表根目录
+                    component:{
+                        template:`<h2>good1</h2>`
+                    }
+                },{
+                    path:"good2",
+                    component:{
+                        template:`<h2>good2</h2>`
+                    }
+                },{
+                    path:'/goods',
+                    redirect:"good1"
+                }]
+            },{
+                path:"/",
+                redirect:'/home'
+            }]
+        })
+        new Vue({
+            el:"#app",
+            router,
+        })
+    </script>
+</body>
+</html>

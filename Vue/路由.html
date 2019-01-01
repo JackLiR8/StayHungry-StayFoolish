@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>路由</title>
+</head>
+<body>
+    <div id="app">
+        <router-link to="/home">home</router-link>
+        <router-link to="/page1">page1</router-link>
+        <router-link to="/page2">page2</router-link>
+        <keep-alive>
+            <!-- 2. 配置路由视图入口 -->
+            <router-view :message='msg'></router-view>      
+            <!-- 父组件向子组件传递msg,router-view 中的prop可以传递到所有路由 -->
+        </keep-alive>
+        
+    </div>
+    <script src="./vue.min.js"></script>
+    <!-- 1. 引入路由插件 -->
+    <script src="./vue-router.js"></script>
+    <script>
+        let page2 = {
+            template:`
+                <div>
+                    <h1>{{message+"page2"}}</h1>
+                    <input/>
+                </div>
+            `,
+            props:['message']
+        }
+        let page1 = {
+            template:`
+                <div>
+                    <h1>{{message+"page1"}}</h1>
+                    <input/>
+                </div>
+            `,
+            props:['message']
+        }
+        let home = {
+            template:`
+                <div>
+                    <h1>{{message+"home"}}</h1>
+                    <input/>
+                </div>
+            `,
+            props:['message']
+        }
+        // 3. 配置路由，指定不同路径渲染不同的试图结构
+        const router = new VueRouter({
+            mode:'hash',
+            routes:[{
+                path:'/home',
+                component:home
+            },{
+                path:'/page1',
+                component:page1
+            },{
+                path:'/page2',
+                component:page2
+            },{
+                path:'/',       // 重定向
+                redirect:'/home'
+            }]
+        })
+        new Vue({
+            el:'#app',
+            router,             // 4. 将路由注册到实例上
+            data:{
+                msg:'hello,'
+            }
+        })
+    </script>
+</body>
+</html>
