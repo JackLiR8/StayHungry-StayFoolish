@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>nexttick</title>
+</head>
+<body>
+    <div id="app">
+        <button @click = "addEle">添加</button>
+        <hr/>
+        <ul>
+            <li v-for="item in arr" :key="item.id">{{item}}</li>
+        </ul>
+    </div>
+    <script src="./vue.min.js"></script>
+    <script>
+        /*  语法： Vue.nextTick([callback,context]) 
+                        第一个参数是回调函数，第二个参数是上下文环境(可以借此确定callback里的this指向)
+
+            官方解释：在下次 DOM 更新循环结束之后(即数据发生改变并推动DOM更新之后)执行延迟回调。在修改数据之后立即使用这个方法，获取更新后的 DOM。
+        
+        */
+        new Vue({
+            el:"#app",
+            data:{
+                arr:[]
+            },
+            methods:{
+                addEle(){
+                    for(let i = 0;i < 5;i++){
+                        this.arr.push(i)
+                    }
+                    // document.querySelectorAll('li')[1].style.background = "gray"
+                    // 👆 在此处操作DOM会报错，因为无法获取视图更新后的 DOM,需要在 Vue.nextTick 里操作试图更新后的DOM
+                    this.$nextTick(()=>{
+                        document.querySelectorAll('li')[0].style.background = "gray"
+                    })
+
+                    /* callback里需要使用this是注意事项：
+                        1.
+                            this.$nextTick(function(){
+                                    this... // this指向实例
+                            })
+                        2. 
+                            Vue.nextTick(function(){
+                                    this... // this指向 Window
+                            })
+
+                            这种情况下解决this指向的方案：
+                            1) 回调函数使用箭头函数
+                                Vue.nextTick(()=>{
+                                    this... // this指向实例
+                                })
+                            2) 利用nextTick()的第二个参数context
+                                Vue.nextTick(function(){
+                                    this... // this指向第二个参数指定的context
+                                },this)
+
+                            3)  进入nexttick之前把this赋值给一个变量
+                                let _this = this;
+                                Vue.nextTick(function(){
+                                    _this... 
+                                })
+
+                    */
+                }
+            }
+        })
+    </script>
+</body>
+</html>

@@ -18,7 +18,12 @@
     <script src="./vue-router.js"></script>
     <script>
     /* 
-        动态路由：
+        动态路由：页面结构相同，但是数据不同的情况下，可以使用动态路由。不同路径指向相同的组件，并用对应的数据渲染该组件。
+
+        配置形式：
+            path: '/home/:id' ， id可以替换成任意变量，name/index ...
+
+            设置的动态参数可以在 $route.params对象里拿到, $route.params.id 就可以拿到 :id 对应的值
     */
         const homePage = {
             template:`
@@ -32,6 +37,9 @@
             routes:[{
                 path:'/home/:id/name/:name',
                 component:homePage
+            },{
+                path:'/',
+                redirect:'/home/001/name/jack'
             }]
         })
         new Vue({
