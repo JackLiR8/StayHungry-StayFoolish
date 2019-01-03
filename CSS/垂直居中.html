@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>垂直居中</title>
+    <style>
+        *{padding: 0;margin: 0}
+        .wrap{
+            width: 500px;
+            height: 500px;
+            background: skyblue;
+        }
+        .content{
+             width: 200px;
+            height: 200px;
+            background: lightcoral;
+            /* text-align: center; */
+            /* line-height: 200px; */
+        }
+    /* 1. 基于子绝父相 
+        
+        .wrap {
+            position: relative;
+        }
+        .content{
+             基于绝对定位： 
+            position: absolute;
+            top:50%;
+            left: 50%;
+            transform: translate(-50%,-50%)
+        }
+    */
+
+    /* 2. 基于 viewport实现在视口中居中
+                vh: 视口高度的 1%
+                vw: 视口宽度的 1% 
+      
+        以下样式会使.content在视口中居中
+        .content {
+            margin-top:50vh;
+            margin-left:50vw;
+            transform: translate(-50%,-50%)
+        }
+    */    
+
+    /* 3. 借助 flexbox 
+            父元素设置 display:flex;
+            居中元素设置 margin: auto; 自动实现水平、垂直居中
+    */
+
+        .wrap {
+            display: flex;
+        }
+        .content {
+            margin: auto;
+            display: flex;
+            
+            justify-content: center; /*控制flex项在主轴上的位置*/
+            align-items: center;    /*控制flex项在交叉轴上的位置*/
+        }
+    </style>
+</head>
+<body>
+    <div class="wrap">
+        <div class="content">Hello,world!</div>
+    </div>
+</body>
+</html>

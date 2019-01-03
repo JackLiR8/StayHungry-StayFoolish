@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>左固定右适应</title>
+    <style>
+        /* 场景需求：实现左边宽度固定200px,右边宽度自适应的布局 */
+        *{padding: 0;margin: 0;}
+        /* 1. BFC 块级格式化上下文 */
+       /*  
+       .container{
+            width: 100%;
+            overflow:hidden
+            background:black
+        }
+        .left {
+            width: 200px;
+            height: 400px;
+            float: left;
+            background: skyblue
+        }
+        .right {
+            overflow: hidden;
+            background:lightcoral
+        } */
+
+        /* 2. flex 布局 
+            此种情况里面高度撑开外面，给left设置高度200px,右边没设高度最终左右告诉却一样
+        */
+        /*
+         .container{
+            width: 100%;
+            display: flex;
+        }
+        .left{
+            width: 200px;
+            height: 200px;
+            flex: none;
+            background: skyblue
+        }
+        .right {
+            flex: 1;
+            background: lightcoral
+        } */
+
+        /* 3. table布局 */
+        /* 
+        .container{
+            width: 100%;
+            display: table;
+        }
+        .left {
+            width:200px;
+            height: 400px;
+            display:table-cell;
+            background: skyblue
+        }
+        .right {
+            display: table-cell;
+            background: lightcoral
+        } */
+
+        /* 4. 利用CSS中的 calc 计算宽度*/
+        .container{
+            width: 100%;
+            overflow: hidden;
+            background: black
+        }
+        .left {
+            width:200px;
+            height: 400px;
+            float: left;
+            background: skyblue
+        }
+        .right {
+            float: right;
+            height: 400px;
+            width: calc(100% - 200px);
+            background: lightcoral
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="left">left</div>
+        <div class="right">right</div>
+    </div>
+</body>
+</html>
