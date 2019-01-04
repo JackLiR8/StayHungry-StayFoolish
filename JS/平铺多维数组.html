@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>平铺多维数组</title>
+</head>
+<body>
+    <script>
+        let arr = [1,[2,3],[4,[5]],[[[6]]]]
+        
+        // 1. 借助concat(),此方法只能平铺2维数组
+        let arr1 = [1,[2,3]]
+        let new_arr1 = [].concat(...arr1)
+        console.log('new_arr1', new_arr1)       // [1,2,3]
+
+        // 2. 递归方法
+        function parseArr(arr,res){
+            // debugger
+            arr.forEach(e => {
+                if(e instanceof Array){
+                    parseArr(e,res)
+                }else{
+                    res.push(e)
+                }
+            });
+        }
+        let result = [];
+        parseArr(arr,result)
+        console.log('result:', result)      // [1,2,3,4,5,6]
+
+        // 3. 简化的递归方式 
+        //      注意arr.some()方法的运用
+        function flatArr(arr){
+            let new_arr = [].concat(...arr)
+            return new_arr.some(e => Array.isArray(e))?flatArr(new_arr):new_arr
+        }
+        console.log('flatArr()', flatArr(arr))      // [1,2,3,4,5,6]
+   
+        // 4. arr.reduce() 和 arr.concat()
+        function reduceFlatArr(arr){
+            return arr.reduce((accmulator,cv)=>{
+                let flag = [].concat(cv).some(e => Array.isArray(e))
+                return accmulator.concat(flag?reduceFlatArr(cv):cv)
+            },[])
+        }
+        console.log('reduceFlatArr()', reduceFlatArr(arr))
+    </script>
+</body>
+</html>

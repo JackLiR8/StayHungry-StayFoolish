@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>数组去重</title>
+</head>
+<body>
+    <script>
+        let arr = [1,2,2,3,3];
+
+        // 1. new Set(arr)
+        let arr1 = [... new Set(arr)]
+        console.log('arr1:', arr1)
+
+        // 2. 借助 includes()
+        function antiDup(arr){
+            let new_arr = []
+            // debugger;
+            arr.forEach(e => {
+               if(!new_arr.includes(e)){
+                    new_arr.push(e)
+               } 
+            });
+            return new_arr
+        }
+        console.log(antiDup(arr))
+
+        // 3. 借助indexOf(), IE8以下不支持
+        function f(arr) {
+            let new_arr = [];
+            arr.forEach(e => {
+                if(new_arr.indexOf(e) == -1){
+                    new_arr.push(e)
+                }
+            })
+            return new_arr
+        }
+        console.log('f(arr)', f(arr))
+        
+        // 4. 遍历数组，利用对象暂存数组的值
+
+        function objMth(arr){
+            let new_arr = [];
+            let obj = {};
+            arr.forEach(e => {
+                if(!obj[e]){
+                    obj[e] = 1;
+                    new_arr.push(e)
+                }
+            })
+            return new_arr
+        }
+        console.log('objMth()', objMth(arr))
+    </script>
+</body>
+</html>
