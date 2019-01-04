@@ -46,6 +46,17 @@
             },[])
         }
         console.log('reduceFlatArr()', reduceFlatArr(arr))
+
+        /* 判断一个对象是不是数组的方法：*/
+
+            // 1. Array.isArray()
+            // 2. arr instanceof Array
+            // 3. Object.prototype.toString.call(arr) === '[object Array]'
+
+            console.log(Array.isArray(arr))     // true
+            console.log(arr instanceof Array)   // true
+            console.log(Object.prototype.toString.call(arr) === '[object Array]')   // true
+            
     </script>
 </body>
 </html>

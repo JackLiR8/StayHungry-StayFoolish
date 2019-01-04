@@ -4,19 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
+    <title>map&filter</title>
 </head>
 <body>
     <script>
-        let arr = [1,2,3,4]
-        let new_arr = arr.map(double)
-        function double(e){
-            return e*2
-        }
-        console.log('新数组', new_arr)     // newArr = [2,4,6,8]
-        
-
-       /*  语法：       array.map(callback[,thisArg])
+    /*  语法：       array.map(callback[,thisArg])
         var new_array = arr.map(function callback(currentValue[, index[, array]])   {
             Return element for new_array }[, 
             thisArg])
@@ -32,6 +24,28 @@
                         callback  map 方法被调用的数组。
             thisArg可选
                 执行 callback 函数时使用的this 值。 */
+
+
+        let arr = [1,2,3,4]
+        let new_arr = arr.map(double)
+        function double(e){
+            return e*2
+        }
+        console.log('新数组', new_arr)     // newArr = [2,4,6,8]
+        
+
+       
+        let nArr = arr.filter(e => e > 2)
+        console.log(nArr)   // [3,4]
+
+        /* filter() 方法和map() 类似，只是 filter() 的 callback() 是对数组的每个元素遍历，返回符合某个条件的判断结果 true or false, 
+        返回的新数组里只包含判断结果是 true 对应的元素。
+        注意回调函数里一定要 return,上面的例子中，回调函数等同于下面的函数：
+            function handler(e){
+                return e > 2
+            }
+            nArr = arr.filter(handler)
+        */
     </script>
 </body>
 </html>
