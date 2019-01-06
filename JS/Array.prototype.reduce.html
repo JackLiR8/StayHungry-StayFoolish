@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>arr.reduce</title>
+</head>
+<body>
+    <script>
+    /* 
+        Array.prototype.reduce()
+
+        语法： arr.reduce(callback[,initialValue])
+
+                reduce()最后的返回值为callback里的accumulator
+
+        callback() 包括四个参数：
+            1. accumulator(acc)
+            2. currentValue(cur)
+            3. index (idx)
+            4. sourceArr (src)
+    */
+
+        let arr = [1,2,3,4]
+
+        let res = arr.reduce((acc,cur)=>{
+            return acc + cur
+        })
+        console.log('res', res) // 10     即 1 + 2 + 3 + 4
+
+        let res1 = arr.reduce((acc,cur)=>{
+            return acc + cur 
+        },10)
+        console.log('res1', res1)   // 20   即 10 + 1 + 2 + 3 + 4
+        
+        /* 提供initialValue 时，reduce 从索引为 0 的位置开始执行 callback;
+            不提供 initialValue 时，reduce 从索引为 1 的位置开始执行 callback,并把 arr[0] 作为acc 的初始值
+
+            为保险起见，最好提供 initialValue
+        */
+
+    /* --------------------------------------- reduce 的应用 ----------------------------------------- */
+
+        // 1. 数组去重
+        let a = [1,3,2,3,2,4,1]
+        let a1 = a.sort().reduce((acc,cur) => {
+            if(acc.length == 0 || acc[acc.length - 1] !== cur){
+                acc.push(cur)
+            }
+            return acc
+        },[])
+        console.log('a1', a1)       // [1,2,3,4]
+
+        // 2. 累加数组之和  见最上面的例子
+
+        // 3. 累加对象数组中的值
+        let a2 = [{x:2},{x:3},{x:4}]
+        add_a2 = a2.reduce(
+            (acc,cur) => acc + cur.x
+            ,0
+        );
+        console.log('add_a2', add_a2)
+        
+    </script>
+</body>
+</html>

@@ -14,7 +14,19 @@
         let arr1 = [... new Set(arr)]
         console.log('arr1:', arr1)
 
-        // 2. 借助 includes()
+        // 2. 借助sort()和reduce()
+
+        let a = [1,2,1,5,2,4,3]
+        let a1 = a.sort().reduce((acc,cur)=> {
+            if(acc.length == 0 || acc[acc.length - 1] !== cur){
+                acc.push(cur)
+            }
+            return acc
+        },[])
+        console.log('a1',a1)
+
+
+        // 3. 借助 includes()
         function antiDup(arr){
             let new_arr = []
             // debugger;
@@ -27,7 +39,7 @@
         }
         console.log(antiDup(arr))
 
-        // 3. 借助indexOf(), IE8以下不支持
+        // 4. 借助indexOf(), IE8以下不支持
         function f(arr) {
             let new_arr = [];
             arr.forEach(e => {
@@ -39,7 +51,7 @@
         }
         console.log('f(arr)', f(arr))
         
-        // 4. 遍历数组，利用对象暂存数组的值
+        // 5. 遍历数组，利用对象暂存数组的值
 
         function objMth(arr){
             let new_arr = [];
