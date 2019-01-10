@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>树形结构</title>
+</head>
+<body>
+    <script>
+        let arr = [{
+            id:'1',
+            name:'lakers',
+            parent_id :''
+        },{
+            id:'2',
+            name:'kobe',
+            parent_id:'1'
+        },{
+            id:'3',
+            name:'kuzma',
+            parent_id:'1'
+        },{
+            id:'4',
+            name:'worrior',
+            parent_id:''
+        },{
+            id:'5',
+            name:'curry',
+            parent_id:'4'
+        },{
+            id:'6',
+            name:'kaly',
+            parent_id:'4'
+        },{
+            id:'7',
+            name:'coco',
+            parent_id:'6'
+        }]
+
+        function toTree(data,parent_id) {
+            var tree = [];
+            var temp ;
+            // debugger;
+            for (let i = 0;i < data.length;i++){
+                if(data[i].parent_id == parent_id){
+                    var obj = data[i];
+                    temp = toTree(data,data[i].id)
+                    if(temp.length > 0){
+                        obj.children = temp
+                    }
+                    tree.push(obj)
+                }
+            }
+            return tree
+        }
+        console.log('树形结构', toTree(arr,''))
+        /* 
+            new_arr = [{
+                id:'1',
+                name:'lakers',
+                parent_id:'',
+                childern:[{
+                    id:'2',
+                    name:'kobe',
+                    parent_id:'1'
+                },{
+                    id:'3',
+                    name:'kuzma',
+                    parent_id:'1'
+                }]
+            },{
+                id:'4',
+                name:'worriors',
+                parent_id:'',
+                children:[{
+                    id:'5',
+                    name:'curry',
+                    parent_id:'4'
+                },{
+                    id:'6',
+                    name:'kaly',
+                    parent_id:'4',
+                    children:[{
+                        id:'7',
+                        name:'coco',
+                        parent_id:'6'
+                    }]
+                }]
+            }]
+        */
+    </script>
+</body>
+</html>
