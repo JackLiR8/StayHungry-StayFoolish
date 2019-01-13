@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>postMessage-1</title>
+</head>
+<body>
+    <h1 id="msgWall">主页</h1>
+    <script>
+        /* 
+            window.postMessage(message,targetOrigin)
+                message : 要发送的消息，只能为字符串类型
+                targetOrigin : 限定接收消息的 window对象所在的域
+
+            调用postMessage方法的window 对象是要接收消息的那个 window 对象
+
+            需要接受消息的对象，可通过监听自身的 message 事件来获取传过来的消息，消息的内容储存在该事件对象的 data 属性中
+
+            适用于一个页面有几个框架的情况，每个框架都有一个window对象
+        */
+        function onLoad() {
+            var iframe = document.getElementById("iframe")
+            var iframeWindow = iframe.contentWindow
+            iframeWindow.postMessage("hello, iframe! Here's main-page ","*")
+        }
+    </script>
+    <iframe id ="iframe" src="file:///E:/%E4%BB%A3%E7%A0%81/stayHungry/StayHungry-StayFoolish/HTML5/window.postMessage2.html" frameborder="1" onload="onLoad()"></iframe>
+</body>
+</html>
