@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>css箭头</title>
+    <style>
+        .left {
+            display: inline-block;
+            height: 0;
+            width: 0;
+            border-right:50px solid slateblue;
+            border-top: 30px solid transparent;
+            border-bottom:30px solid transparent
+        }
+
+        .right {
+            display: inline-block;
+            height: 0;
+            width: 0;
+            border-left:50px solid slateblue;
+            border-top: 30px solid transparent;
+            border-bottom:30px solid transparent
+        }
+        .up {
+            display: inline-block;
+            height: 0;
+            width: 0;
+            border-bottom:50px solid slateblue;
+            border-left: 30px solid transparent;
+            border-right:30px solid transparent
+        }
+        .down {
+            display: inline-block;
+            height: 0;
+            width: 0;
+            border-top:50px solid slateblue;
+            border-left: 30px solid transparent;
+            border-right:30px solid transparent
+        }
+
+        .left-up {
+            display: inline-block;
+            height: 0;
+            width: 0;
+            border-left: 50px solid slateblue;
+            border-bottom: 50px solid transparent
+        }
+
+        .left-down {
+            display: inline-block;
+            height: 0;
+            width: 0;
+            border-left: 50px solid slateblue;
+            border-top: 50px solid transparent
+        }
+
+        .right-up {
+            display: inline-block;
+            height: 0;
+            width: 0;
+            border-right: 50px solid slateblue;
+            border-bottom: 50px solid transparent
+        }
+        .right-down {
+            display: inline-block;
+            height: 0;
+            width: 0;
+            border-right: 50px solid slateblue;
+            border-top: 50px solid transparent
+        }
+        .test {
+            height: 50px;
+            width: 100px;
+            background:slateblue;
+
+        }
+        .test>div {
+            height: 50px;
+            width: 100px;
+        }
+        .test::after {
+            content: '';
+            display: block;
+            height: 0;
+            width: 0;
+            border-top:20px solid slateblue;
+            border-left: 12px solid transparent;
+            border-right: 12px solid transparent;
+            
+        }
+
+    </style>
+</head>
+<body>
+    <div class="left"></div>
+    <div class="right"></div>
+    <div class="up"></div>
+    <div class="down"></div>
+    <div class="left-up"></div>
+    <div class="left-down"></div>
+    <div class="right-up"></div>
+    <div class="right-down"></div>
+    <div class="test"><div>1122</div></div>
+</body>
+</html>

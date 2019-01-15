@@ -23,6 +23,10 @@
         function onLoad() {
             var iframe = document.getElementById("iframe")
             var iframeWindow = iframe.contentWindow
+            /* 
+                contentWindow属性返回<iframe>元素的Window对象。你可以使用这个Window对象来访问iframe的文档及其内部DOM。
+                contentWindow为只读，但是可以像操作全局Window对象一样操作其属性。            
+            */
             iframeWindow.postMessage("hello, iframe! Here's main-page ","*")
         }
     </script>
