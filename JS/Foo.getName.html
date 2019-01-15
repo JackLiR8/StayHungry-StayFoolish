@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>面试题Foo.getName</title>
+</head>
+<body>
+    <script>
+        function Foo() {
+            getName = function (){console.log(1)}
+            return this
+        }
+        
+        Foo.getName = function (){console.log(2)}
+        Foo.prototype.getName = function () {console.log(3)}
+        var getName = function () {console.log(4)}
+        function getName(){console.log(5)}
+
+        Foo.getName()   // 2
+        getName()       // 4
+        Foo().getName() // 1
+        getName()       // 1
+        new Foo.getName()   // 2
+        new Foo().getName() // 3
+        new new Foo().getName() // 3 
+
+    /* 分析：
+        浏览器执行JS分两步
+            （1）预解析
+                在代码解读之前发生，相当于一个"仓库"，放一些东西，比如var、function、参数等。
+                预解析时变量都是未定义的，函数则是整个函数块。
+                预解析时遇到重名的，会覆盖。变量与函数，留函数；函数与函数，留后面解析的。
+                当代码在一个环境中执行时，会创建变量对象的一个作用域链。是域就要预解析。
+
+            （2）执行代码
+                代码自上而下，从左往右的执行，读到表达式时，预解析仓库中的东西发生改变。
+    
+    
+    */
+    </script>
+</body>
+</html>

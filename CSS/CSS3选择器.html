@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>选择器</title>
+    <style>
+        span:first-child {
+            background: gray
+        }
+        /*  first-child  选择某元素中的第一个 
+            last-child  选择某元素中的最后一个
+        */
+
+        /* :nth-child(n)    所有选中元素中的第n个，不考虑元素类型
+                            n = 0 时取不到任何元素
+                            2n 可以取到所有排序为偶数的元素
+                            n + 5 可以实现从第5个元素开始选择
+                            4n + 1 可以实现隔几个元素选择一个
+            
+            :nth-last-child()   从最后一个元素开始算
+         */
+        div:nth-child(2){
+            background:greenyellow;
+        }
+        div:nth-child(3){
+            background:skyblue;
+        }
+
+        /* p:nth-of-type     所有属于其父元素中的第二个p元素的p标签 
+        */
+        div:nth-of-type(3){
+            background: red
+        }
+        /*  :only-of-type   某个元素在其父元素中是唯一一个这种类型的元素
+
+            :only-child     某个元素是他的父元素的唯一子元素
+         */
+        p:only-of-type {
+            background:rosybrown
+        }
+
+    </style>
+</head>
+<body>
+    <div class="container">
+        <span>span-1</span>
+        <div>div-1</div>
+        <div>div-2</div>
+        <p>p-1</p>
+        <span>span-2</span>
+        <div>div-3</div>
+        <div>div-4</div>
+    </div>
+</body>
+</html>
