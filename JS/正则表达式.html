@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>正则表达式</title>
+</head>
+<body>
+    <script>
+    /* 
+        1.基本元字符
+            .   匹配换行符之外的任何单字符
+            |   逻辑或
+            []  字符集和
+            [^] 集合取非
+            -   定义区间    [a-z]
+
+        2.数量元字符
+            {m,n}   匹配至少m次，至多n次
+                    {m} 匹配m次，
+                    {m,}    匹配至少m次
+            +       匹配一次或多次
+            *       匹配零次或多次
+            ?       匹配零次或一次
+
+        3. 特殊元字符
+            \d  [0-9]
+            \D  [^0-9]  单个非数字
+            \s  单个空白符
+            \S  非空白符
+            \w  [0-9a-zA-Z_]    数字、大小写字母、下划线
+            \W  [^0-9a-zA-Z_]   非单词字符
+
+        4. 标志字符
+            g   全局匹配
+            i   不区分大小写
+            m   多行匹配
+    */
+        let str = '123abc 345'
+       
+        console.log(str.replace(/\d+/,'*'))    // '*abc 345'
+        console.log(str.replace(/\d+/g,'*'))   // '*abc *'
+        console.log(str.replace(/\d/,'*'))      // '*23abc 345'
+        console.log(str.replace(/\d/g,'*'))     // '***abc ***'
+
+        console.log(str.replace(/\D/,'*'))      // '123*bc 345'
+
+        console.log(str.replace(/\s/,''))       // '123abc345'
+
+        console.log(str.replace(/\d{2}/,'*'))   // '*3abc 345'
+        console.log(str.replace(/\d{2,3}/,'*')) // '*abc 345'
+
+        let str1 = '123ab1AZ34' 
+        console.log(str1.replace(/\d{2,3}/,'*'))    // '*ab1AZ34'
+        console.log(str1.replace(/\d{2,3}/g,'*'))    // '*ab1AZ*'
+        console.log(str1.replace(/\d+/g,'*'))    // '*ab*AZ*'
+
+        console.log(str1.replace(/A/,'*'))      // '123ab1*Z34'
+        console.log(str1.replace(/A/i,'*'))     // '123*b1AZ34'     标志字符 i 使匹配不区分大小写
+    </script>
+</body>
+</html>

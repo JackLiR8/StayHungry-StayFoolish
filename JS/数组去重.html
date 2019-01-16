@@ -14,7 +14,7 @@
         let arr1 = [... new Set(arr)]
         console.log('arr1:', arr1)
 
-        // 2. 借助sort()和reduce()
+        // 2. 借助sort()和reduce()      注意：sort会改变原数组
 
         let a = [1,2,1,5,2,4,3]
         let a1 = a.sort().reduce((acc,cur)=> {
