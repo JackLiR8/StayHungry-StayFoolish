@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Iterator</title>
+</head>
+<body>
+    <script>
+    /* 
+    一. Iterator(遍历器)概念
+        Iterator 的作用：
+            1. 为各种数据结构提供一种简单统一的访问接口
+            2. 使数据结构的成员按某种顺序排列
+            3. 为 for ... of... 循环服务 
+
+        Iterator 遍历过程
+            1. 创建一个指针对象，指向当前数据结构的起始位置（遍历器对象本质上就是一个指针对象）
+            2. 第一次调用指针对象的 next 方法，可以将指针指向数据结构的第一个成员
+            3. 第二次调用指针对象的 next 方法，指针指向数据结构的第二个成员
+            4. 不断调用指针对象的next方法，直到指向数据结构的结束位置
+
+            每次调用next都会返回数据结构当前成员的信息：{value:'a', done:false}
+                value属性是当前成员的值，done表示遍历是否结束
+
+        Iterator 只是把接口规格加到了数据结构上，所以遍历器和所遍历的数据结构实际上是分开的
+    */
+
+    /* 
+    二. 默认Iterator接口
+        当使用for...of循环遍历某种数据结构时，该循环会自动寻找Iterator接口
+
+        默认的Iterator接口部署在数据结构的Symbol.iterator属性，即一个数据结构只要具有Symbol.iterator属性，就可以认为是“可遍历”(iterable)的
+
+        原生具备Iterator接口的数据结构:(特别注意Object不是iterable的)
+            Array
+            Map
+            Set
+            String
+            TypedArray
+            函数的arguments对象
+            NodeList对象
+    
+    */
+        // 1. 数组的Symbol.iterator属性
+            let arr = [1,2,3]
+            let iter = arr[Symbol.iterator]()
+            let obj = {num1:1,num2:2}
+
+            console.log(iter.next())
+            console.log(iter.next())
+            console.log(iter.next())
+            console.log(iter.next())
+            /* 
+            {value: 1, done: false}
+            {value: 2, done: false}
+            {value: 3, done: false}
+            {value: undefined, done: true}
+            */
+
+            for (const iterator of arr) {
+                console.log(iterator)
+            }
+            // 1 2 3
+
+        // 2. 遍历器实现指针结构的例子
+            // 先在构造函数原型链上部署 Symbol.iterator 方法，调用该方法会返回遍历器对象 iterator, 调用该对象的next方法，在返回一个值的同时自动将内部指针移动到下一个实例
+            
+        function Obj(value) {
+            this.value = value;
+            this.next = null;
+        }
+        
+        Obj.prototype[Symbol.iterator] = function () {
+            var iterator = {next:next};
+            var current = this;
+            function next() {
+                if (current){
+                    var value = current.value;
+                    current = current.next;     // 指针移到下一个实例
+                    return {done:false,value:value}
+                } else {
+                    return {done:true};
+                }
+            }
+            return iterator
+        }
+
+        var one = new Obj(1);
+        var two = new Obj(2);
+        var three = new Obj(3);
+
+        
+        one.next = two;
+        two.next = three;
+
+        for (var i of one) {
+            console.log(i);
+        }
+        
+        // 类似数组的对象（存在数值键名和length属性），可以使Symbol.iterator 方法直接引用数组的 Iterator 接口
+
+        let iterObj = {
+            0:'a',
+            1:'b',
+            2:'c',
+            length:3,
+            [Symbol.iterator]:Array.prototype[Symbol.iterator]
+        };
+        for (let item of iterObj) {
+            console.log(item)
+        } 
+        // 'a' 'b' 'c'
+        
+    </script>
+</body>
+</html>
