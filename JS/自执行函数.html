@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>自执行函数</title>
+</head>
+<body>
+    <script>
+        /* 
+            !function(){}()
+
+            (function(){})()
+        */   
+        
+        !function(){console.log(1)}();
+
+        !(function(){console.log(2)})()
+        // 声明第二行的时候，要么在第一行的末尾加分号，要么在第二行的开头加 ! 或者 + , 否则报错
+        /* 
+            如果没有这个加号的话，解析器会认为function是一个函数声明的开始，而后面（）将会导致语法错误。在function前面加上+号时，
+            就变成了一个函数表达式，而函数表达式后面又添加了一个()就变成了一个立即执行的函数了
+        */
+    </script>
+</body>
+</html>
