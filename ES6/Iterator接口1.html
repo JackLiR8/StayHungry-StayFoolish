@@ -99,6 +99,31 @@
             console.log(i);
         }
         
+
+        // 另一个为对象添加Iterator接口的例子
+        let ob = {
+            data:['hello','world','jack'],
+            [Symbol.iterator](){
+                let _this = this;
+                let index = 0;
+                return {
+                    next(){
+                        if(_this.data.length > index ){
+                            return {value:_this.data[index++], done:false}
+                        }else{
+                            return {value:undefined, done:true }
+                        }
+                    }
+                }
+            }
+        }
+
+        for (let item of ob){
+            console.log(item)       // 'hello'  "world"  "jack"
+        }
+
+
+
         // 类似数组的对象（存在数值键名和length属性），可以使Symbol.iterator 方法直接引用数组的 Iterator 接口
 
         let iterObj = {
