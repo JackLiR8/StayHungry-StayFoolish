@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Generator函数语法</title>
+</head>
+<body>
+    <script>
+    /* 
+        1. Generator函数是一个状态库，封装了多个内部状态
+        2. 执行Generator函数会返回一个遍历器对象，该遍历器对象可以依次遍历Generator函数内部的每一个状态
+
+        Generator函数特点：1. 函数名前带星号； 2. 函数体内使用yeild语句定义不同的内部状态
+
+        总结：
+            调用Generator函数返回一个遍历器指针对象。每次调用遍历器对象的next方法，就会返回一个包含value 和 done 两个属性的对象。
+            value 表示当前内部状态的值，是 yield 语句后面那个表达式的值
+    */
+   
+    // ----------------- yield 表达式 --------------------------------
+        /* 
+            遍历器对象next方法运行逻辑：
+                1. 遇到 yield 就暂停后面的操作， 并将紧跟在 yield 后面的表达式的值作为返回对象的 value 的值
+                2. 下一次调用 next 时继续执行，直到遇到下一条 yield
+                3. 若没有yield, 就一直运行到函数结束，直到 return 语句为止，并将return后的表达式的值作为返回的对象中的 value 的值
+                4. 若函数没有return , 则返回的对象中的 value 的值为 undefined
+        */
+
+        function* helloWorldGenerator(){
+            yield "hello";
+            yield "world";
+            return "ending";
+        }
+
+        let hw = helloWorldGenerator();
+
+        console.log(hw.next())      // {done:false, value:"hello"}
+        console.log(hw.next())      // {done:false, value:"world"}
+        console.log(hw.next())      // {done:true, value:"ending"}
+        console.log(hw.next())      // {done:true, value:undefined}
+
+        // 用generator函数平铺多维数组
+
+        var arr = [1,[[2,3],4],[5,6]];
+        var flat = function* (a){
+            for (var i = 0;i < a.length;i++) {
+                var item = a[i];
+                if (typeof item !== "number") {
+                    yield* flat(item);
+                } else {
+                    yield item
+                }
+            }
+        }
+        var new_arr = [];
+        for (f of flat(arr)){
+            new_arr.push(f)
+        };
+        console.log('new_arr', new_arr)    // [1,2,3,4,5,6]
+
+    // yield 表达式如果在另一个表达式里，必须放在圆括号里，否则报错
+    // 如果用作函数参数或放在赋值表达式的右边，可以不加括号
+        function* demo(){
+            console.log('hello' + (yield ));
+            console.log('world'+(yield 2))
+        }
+        let d = demo()
+        console.log(d.next())
+        console.log(d.next())
+        console.log(d.next())
+        /* 
+            第一次调用next: 
+                执行yield, 返回{value:undefined,done:false}
+            第二次调用next: 
+                执行第一句console.log,打印出"helloundefined";
+                执行第2个yield,返回{value:2,done:false}
+            第三次调用next: 
+                执行第二局console.log,打印出"worldundefined";
+                函数执行完毕，返回{value:undefined,done:true}
+        */
+
+    /* ---------------------- 与 Iterator 接口的关系 -------------------- */
+        // 可以把Generator赋值给对象的Symbol.iterator属性，使其具有 Iterator接口
+        var obj = {};
+        obj[Symbol.iterator] = function* (){
+            yield 1;
+            yield 2;
+            yield 3;
+        };
+        
+        console.log([...obj])   // [1,2,3]
+
+        /* Generator 函数执行后，返回一个遍历器对象。该对象的本身也具有 Symbol.iterator属性，执行后返回自身 */
+
+        function* gen(){
+            // 
+        }
+
+        let g = gen();
+        
+        console.log(g[Symbol.iterator]() === g) // true
+    </script>
+</body>
+</html>
