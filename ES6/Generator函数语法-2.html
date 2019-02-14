@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Generator函数</title>
+</head>
+<body>
+    <script>
+    /* ---------------------------- next方法的参数 ----------------------------- */
+        // yield 本身没有返回值，(总是返回 undefined). next 方法可以带一个参数，该参数被当作上一条 yield 语句的返回值 
+        
+        /* Generator 函数从暂停状态到恢复运行，其上下文(context)是不变的；通过next 参数就可以在Generator函数开始运行后继续
+        向函数体内部注入值，即可以在 Generator 函数运行的不同阶段从外部向内部注入不同的值，从而调整函数行为 */
+
+        function* foo(x){
+            var y = 2 * (yield x + 1);
+            var z = yield (y / 3);
+            return x + y + z
+        }
+        var a = foo(5);
+        console.log(a.next());      // {value: 6, done: false}
+        console.log(a.next());      // {value: NaN, done: false}        y = 2* undefined,即 NaN
+        console.log(a.next());      // {value: NaN, done: true}
+        
+        var b = foo(5);
+        console.log(b.next());      // {value: 6, done: false}
+        console.log(b.next(12));    // {value: 8, done: false}
+        console.log(b.next(13));       // {value: 42, done: true}
+    // 第一次调用next方法时传递参数是无效的
+
+        // 下面的例子每次通过next方法向 Generetor函数输入值，然后打印出来
+        function* dataConsumer(){
+            console.log('Started');
+            console.log(`1. ${yield}`);
+            console.log(`2. ${yield}`);
+            return 'result'
+        }
+        let genObj = dataConsumer();
+        genObj.next();
+        console.log(genObj.next('a'));
+        console.log(genObj.next('b'));
+        console.log(genObj.next());
+
+        /*
+        Started
+        1. a
+        {value: undefined, done: false}
+        2. b
+        {value: "result", done: true}
+        {value: undefined, done: true}  */
+
+    /* --------------------------------- for...of 循环 ------------------------------ */
+        /* for...of 可以自动遍历 Generator函数生成的 Iterator对象，不需要调用next */
+        function* fun(){
+            yield 1;
+            yield 2;
+            yield 3;
+            return 4
+        }
+
+        for(let f of fun()){
+            console.log(f)      // 1    2   3
+        }
+
+    /* !!! 注意：
+            一旦next方法返回的对象中done属性为true时，for...of 循环就会终止，且不包含该返回对象，所以上面的 return 语句返回的 4 不包括在 for...of 循环中 */
+    </script>
+</body>
+</html>
