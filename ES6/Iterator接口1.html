@@ -65,7 +65,8 @@
             // 1 2 3
 
         // 2. 遍历器实现指针结构的例子
-            // 先在构造函数原型链上部署 Symbol.iterator 方法，调用该方法会返回遍历器对象 iterator, 调用该对象的next方法，在返回一个值的同时自动将内部指针移动到下一个实例
+            // 先在构造函数原型链上部署 Symbol.iterator 方法，调用该方法会返回遍历器对象 iterator,
+            // 调用该对象的next方法，在返回一个值的同时自动将内部指针移动到下一个实例
             
         function Obj(value) {
             this.value = value;
@@ -94,11 +95,11 @@
         
         one.next = two;
         two.next = three;
-
+        console.group('start')
         for (var i of one) {
-            console.log(i);
+            console.log(i);         //  1   2   3
         }
-        
+        console.groupEnd()
 
         // 另一个为对象添加Iterator接口的例子
         let ob = {
