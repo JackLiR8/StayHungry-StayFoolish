@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Generator函数语法-3</title>
+</head>
+<body>
+    <script>
+    /* ---------------------- Generator.prototype.throw() ----------------------- */
+    
+        /* Generator 函数返回的遍历器对象都有一个 throw 方法，可以在函数体外抛出错误，然后在Generator 函数体内捕获 */
+        var g = function* () {
+            try {
+                yield;
+            } catch (e) {
+                console.log('内部捕获',e)
+            }
+        }
+
+        let i = g();
+        i.next();
+
+        try {
+            i.throw("hello");
+            i.throw("world")
+        } catch (e) {
+            console.log('外部捕获',e)
+        }
+
+        // '内部捕获'   "hello"
+        // "外部捕获"   "world"
+        /* i 连续抛出两个错误，第一个被函数体内的 catch捕获；第二次抛出错误时，函数体内的 catch 语句
+        已经执行过了，不会在捕捉这个错误，所以这个错误抛出函数体，被函数体外的 catch语句捕获*/
+
+        /* 注意遍历器对象的 throw 方法和全局的 throw 命令，后者只能被函数体外的 catch 语句捕获
+            遍历器对象的 throw 方法和全局的 throw 命令是互不相干的
+        */
+
+        // 若 Generator 函数体内没有部署 try...catch代码块，则 throw 方法抛出的错误将被外部的 catch 捕获
+        console.group('g1')
+        let g1 = function* () {
+            while (true) {
+                yield;
+                console.log('内部捕获', e)
+            }
+        };
+        var i1 = g1();
+        i1.next();
+
+        try {
+            i.throw('a');
+            i.throw('b')
+        } catch (e) {
+            console.log('外部捕获', e)
+        }
+        // '外部捕获'   'a'
+        console.groupEnd()
+
+        /* 如果Generator 函数体内部署了 try...catch, 那么遍历器的 throw 方法抛出的错误不会影响下一
+        次遍历，否则直接终止 */
+
+        var gen = function* () {
+            yield console.log('hello');
+            yield console.log('world')
+        };
+        var it = gen();
+        it.next();      // 'hello'
+        // it.throw();     // Uncaught undefined
+
+        // throw 方法被捕获之后会附带执行下一条 yield 表达式，即附带执行一次 next 
+        console.group('gen1')
+        var gen1 = function* () {
+            try {
+                yield console.log('a')
+            } catch (e) {
+                // 
+            }
+            yield console.log('b')
+            yield console.log('c')
+        }
+
+        var ge1 = gen1();
+        ge1.next();     // a
+        ge1.throw();    // b
+        ge1.next();     // c
+        console.groupEnd() 
+
+        // 函数体内抛出的错误也可以在函数体外捕获
+        function* foo() {
+            var x = yield 3;
+            var y = x.toUpperCase();
+            yield y
+        }
+        var it1 = foo();
+        it1.next();     // {value:3,done:false}
+
+        try {
+            it1.next(42)
+        } catch (e) {
+            console.log(e)
+        }
+        // 一旦Generator函数执行过程中抛出错误，就不会在执行下去了，若继续调用next(),则返回{value:undefined,done:true}
+
+    /* ----------------------------- Generator.prototype.return() ------------------------------- */
+        /*  函数返回的遍历器对象还有一个 return 方法，可以返回给定的值，并终结 Generator函数的遍历 */
+        function* gen2() {
+            yield 1;
+            yield 2;
+            yield 3
+        }
+        var g2 = gen2();
+        console.log(g2.next());         // {value:1,done:false} 
+        console.log(g2.return('foo'));  // {value:'foo',done:true}
+        console.log(g2.next())          // {value:undefined,done:true}
+
+        // return() 方法不提供参数时，返回的对象中value值为 undefined;
+        // 如果Generator函数内部有try...finally代码块，则return方法会推迟到finally代码块执行完再执行
+        console.group('return 遇见 try...finally')
+        function* numbers() {
+            yield 1;
+            try {
+                yield 2;
+                yield 3;
+            } finally {
+                yield 4;
+                yield 5;
+            }
+            yield 6;
+        }
+        var itr = numbers();
+        console.log(itr.next());        // {value: 1, done: false}
+        console.log(itr.next());       // {value: 2, done: false}
+        console.log(itr.return(7));     // {value: 4, done: false}
+        console.log(itr.next());        // {value: 5, done: false}
+        console.log(itr.next());        // {value: 7, done: true}
+
+        console.groupEnd()
+    </script>
+</body>
+</html>
