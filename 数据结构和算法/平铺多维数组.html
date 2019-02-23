@@ -56,7 +56,21 @@
             console.log(Array.isArray(arr))     // true
             console.log(arr instanceof Array)   // true
             console.log(Object.prototype.toString.call(arr) === '[object Array]')   // true
-            
+        // 5. yield*
+        function* iterTree(tree){
+            if (Array.isArray(tree)) {
+                for(let i = 0; i < tree.length;i++){
+                    yield* iterTree(tree[i])
+                }
+            } else {
+                yield tree
+            }
+        }
+
+        let tree = [1,[2,[3,4,[5],6],7]];
+        for (let i of iterTree(tree)) {
+            console.log(i)      // 1 2 3 4 5 6 7
+        }; 
     </script>
 </body>
 </html>

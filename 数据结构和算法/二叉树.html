@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>二叉树</title>
+</head>
+<body>
+    <script>
+        /* ---------------------- 使用 yield* 遍历完全二叉树 --------------------------- */
+        
+        function Tree(left,label,right){
+            this.left = left;
+            this.label = label;
+            this.right = right;
+        }
+
+        function* inorder(t){
+            if (t) {
+                yield* inorder(t.left);
+                yield t.label;
+                yield* inorder(t.right);
+            }
+        }
+
+        function make(arr){
+            if (arr.length == 1) return new Tree(null, arr[0], null);
+            return new Tree(make(arr[0]), arr[1], make(arr[2]))
+        }
+
+        let tree = make([[["a"],"b",['c']],'d',[['e'],'f','g']])
+        console.log(tree)
+        let result = [];
+        for (let node of inorder(tree)) {
+            result.push(node)
+        }
+        // result ['a','b','c','d','e','f','g']
+    </script>
+</body>
+</html>
