@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>yield* 表达式</title>
+</head>
+<body>
+    <script>
+    /* ----------------------- yield* 表达式 -------------------------------- */
+        /* Generator 函数里调用另一个 Generator 函数是没有效果的， yield* 用来在Generator函数里调用另一个Generator 函数
+            ！！！任何一个具有iterator接口的数据结构都可以被 yield*语句遍历
+        */
+        
+        function* foo(){
+            yield "a";
+            yield "b";
+        }
+
+        function* bar(){
+            yield "x";
+            foo();
+            yield "y";
+        }
+
+        for (let v of bar()) {
+            console.log(v)          // "x"  "y"
+        }
+
+        function* b(){
+            yield "x";
+            yield* foo();
+            yield "y";
+        }
+        console.group("yield*")
+        for (let v of b()) {
+            console.log(v)          // "x"  "a"  "b"  "y"
+        }
+        console.groupEnd()
+
+        // 再看一个例子
+        function* inner(){
+            yield "hello";
+        }
+
+        function* outer1(){
+            yield "open";
+            yield inner();
+            yield "close";
+        }
+
+        var gen1 = outer1();
+        console.log(gen1.next().value)    // "open"
+        console.log(gen1.next().value)    // 返回一个遍历器对象
+        console.log(gen1.next().value)    // close
+
+        function* outer2(){
+            yield "open";
+            yield* inner();
+            yield "close";
+        }
+        var gen2 = outer2();
+        console.log(gen2.next().value)    // "open"
+        console.log(gen2.next().value)    // "hello"
+        console.log(gen2.next().value)    // "close"
+
+    /* 如果 yield 命令后面跟的是一个遍历器对象，那么需要在yield命令后面加上星号，表明返回的是一个遍历器
+    对象。这被称为 yield* 语句；
+    
+    yield* 后面的Generator 函数（没有return语句时）等同于在Generator函数内部部署一个for...of
+    循环；在有 return 语句时，则需要用 var value = yield* iterator 的形式获取return语句的值*/
+
+        // yield* 后面跟一个数组，数组原生支持遍历器，因此就会遍历数组成员
+        // 注意下面的例子，yield不加星号返回的是整个数组，加星号返回的时数组的遍历器对象
+        function* foo1(){
+            yield [1,2,3]
+        }
+        for (let i of foo1()) {
+            console.log(i)      // [1,2,3]
+        }
+
+        function* foo2(){
+            yield* [1,2,3]
+        }
+        for (let i of foo2()) {
+            console.log(i)      //  1   2   3
+        }
+    
+        function* kobe(){
+            yield "a";
+            yield "b";
+            return "The result"
+        }
+        function* laker(genObj){
+            let result = yield* genObj;
+            console.log(result)
+        }
+
+        console.log([...laker(kobe())])
+        // "The result"
+        // ["a", "b"]
+
+        // yield* 可以很方便的取出嵌套数组的所有成员；
+        function* iterTree(tree){
+            if (Array.isArray(tree)) {
+                for(let i = 0; i < tree.length;i++){
+                    yield* iterTree(tree[i])
+                }
+            } else {
+                yield tree
+            }
+        }
+
+        let arr = [1,[2,[3,4,[5],6],7]];
+        for (let i of iterTree(arr)) {
+            console.log(i)      // 1 2 3 4 5 6 7
+        };
+
+        /* ---------------------- 使用 yield* 遍历完全二叉树 --------------------------- */
+        
+        function Tree(left,label,right){
+            this.left = left;
+            this.label = label;
+            this.right = right;
+        }
+
+        function* inorder(t){
+            if (t) {
+                yield* inorder(t.left);
+                yield t.label;
+                yield* inorder(t.right);
+            }
+        }
+
+        function make(arr){
+            if (arr.length == 1) return new Tree(null, arr[0], null);
+            return new Tree(make(arr[0]), arr[1], make(arr[2]))
+        }
+
+        let tree = make([[["a"],"b",['c']],'d',[['e'],'f','g']])
+        console.log(tree)
+        let result = [];
+        for (let node of inorder(tree)) {
+            result.push(node)
+        }
+        // result ['a','b','c','d','e','f','g']
+    </script>
+</body>
+</html>
