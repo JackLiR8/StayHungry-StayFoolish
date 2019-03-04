@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>async函数</title>
+</head>
+<body>
+    <script>
+    /*  async函数是Generator函数的语法糖， Generator函数中的 * 用 async 代替， yield 用 await 代替
+
+        async 函数对 Generator 函数的改进：
+            1. 内置执行器。 async 函数的执行与普通函数一样，只需要一行，Generator 函数需要调用 next 方法或者使
+                          用 co 模块才能真正执行
+            2. 更好的语义
+            3. 更广的适用性     co 模块约定，yield 后面只能跟 Thunk 函数或者 promise 对象， await 后面可以
+                             是 Promise 对象和原始类型的值（此时等同于同步操作）。
+
+            4. 返回值是 Promise     可以用 then 方法进行下一步操作
+
+        用法：
+            async 返回一个 Promise 对象，可以使用 then 方法添加回调函数。执行时，一旦遇到 await 就会先返回，
+            等到异步操作完成后再接着执行函数体内的其他语句。 
+
+        使用形式：
+            1. 函数声明     async function foo() {}
+            2. 函数表达式   const foo = async function () {}
+            3. 对象的方法   let obj = { async foo() {}  }
+            4. 箭头函数     const foo = async () => {}
+            5. Class的方法
+                    class Storage {
+                        constructor(){
+                            // ...
+                        }
+
+                        async getAvatar(name){
+                            // ...
+                        }
+                    }
+     */
+
+     // ☞ 指定多少毫秒后输出一个值
+     async function timeout(ms) {
+        await new Promise((resolve) => {
+            setTimeout(resolve, ms);
+        })
+     }
+
+     async function asyncPrint(value,ms){
+        await timeout(ms);
+        console.log(value)
+     }
+
+     asyncPrint('hello',2000)
+
+
+    </script>
+</body>
+</html>
