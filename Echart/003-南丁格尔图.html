@@ -18,6 +18,11 @@
                     name:'访问来源',
                     type:'pie',
                     radius:'55%',
+                    // label:{             在此处设置每个系列的文本样式，label.textStyle 
+                    //     textStyle:{
+                    //         color:"rgba(255,255,255,0.9)"
+                    //     }
+                    // },
                     data:[
                         {
                             value:235,name:"视频广告",
@@ -46,22 +51,22 @@
                 // 鼠标hover时候的样式
                 emphasis:{
                     shadowBlur:100,
-                    shadowColor:"rgba(200,0,100,0.7)"
+                    shadowColor:"rgba(200,0,100,0.7)",
                 }
             },
             backgroundColor:'#2c343c',
-            textStyle:{
+            textStyle:{         // 全局文本样式 textStyle
                 color:'rgba(255,255,255,0.5)'
             },
-            labelLine:{
+            labelLine:{         // 全局的视觉引导线的设置
                 lineStyle:{
                     color:'rgba(255,255,255,0.5)'
                 }
             },
-            visualMap:{
-                // 不显示visualMap组件，只用于明暗度的映射
-                show:false,
-                min:80,
+            visualMap:{     // visualMap 组件将数值大小映射到明暗度
+                
+                show:false,     // 不显示visualMap组件，只用于明暗度的映射
+                min:80,         // 映射的最小值  
                 max:600,
                 inRange:{
                     // 明暗度范围0~1
