@@ -6,11 +6,12 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>样式简介</title>
     <script src="./echarts.js"></script>
+    <script src="./westeros.js"></script>
 </head>
 <body>
-    <div id="chart"></div>
+    <div id="chart" style="width:600px;height:400px"></div>
     <script>
-        
+        let chart = echarts.init(document.getElementById('chart'),'westeros');
     </script>
 </body>
 </html>
