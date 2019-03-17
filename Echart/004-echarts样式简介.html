@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>样式简介</title>
+    <script src="./echarts.js"></script>
+    <script src="./westeros.js"></script>
+</head>
+<body>
+    <div id="chart" style="width:600px;height:400px"></div>
+    <script>
+    // 1. 颜色主题 Theme
+        /*  Echart4 开始，除了默认主题外，还有 "light" 和 "dark" 两个主题
+
+                var chart = echarts.init(dom, 'light')
+
+            其他的主题没有内置在 Echarts 中， 需要自己加载，在主题编辑器里编辑主题，然后下载
+
+                如果主题保存为JSON文件，那么可以自行加载和注册，例如：
+                （$.getjson()是 jq中读取JSON 的方法）
+                $.getJson('./westeros.json',themeJSON => {
+                echarts.registerTheme('westeros',JSON.parse(themeJSON));
+                var chart = echarts.init(document.getElementById('chart'),"westeros")
+
+                如果保存为UMD格式的js文件，则可以直接引入
+         })
+         */
+        
+        let chart = echarts.init(document.getElementById('chart'),'westeros')
+        chart.setOption({
+            roseType:'angle',   // 饼图支持通过 roseType:'angle' 设置成南丁格尔图
+            series:[
+                {
+                    name:'访问来源',
+                    type:'pie',
+                    radius:'55%',
+                    data:[
+                        {
+                            value:235,name:"视频广告",
+                        },
+                        {value:274,name:"联盟广告"},
+                        {value:310,name:"邮件营销"},
+                        {value:335,name:"直接访问"},
+                        {value:400,name:"搜索引擎"},
+                    ]
+                },
+            ],
+            emphasis:{      // 全局高亮样式设置
+                itemStyle:{
+                    color:"orange"
+                },
+                label:{
+                    color:'orange',
+                    formatter:'this is a emphasis label'    // 标签文字
+                },
+                labelLine:{
+                    lineStyle:{
+                        color:'orange'
+                    }
+                }
+            }
+            // 2. 调色盘
+            /*  在option 中设置，他给定一组颜色，图形系列会自动在其中选择颜色
+                可设置全局或者系列
+
+            color: ['#dd6b66','#759aa0','#e69d87','#8dc1a9','#ea7e53','#eedd78','#73a373','#73b9bc','#7289ab', '#91ca8c','#f49f42'],
+             
+            3. 直接样式设置 itemStyle,lineStyle,areaStyle,label,...
+             
+            4. 高亮样式设置
+                鼠标悬停在图形元素上时，一般会出现高亮样式，默认情况下，高亮样式
+             
+        */
+        })
+    </script>
+</body>
+</html>

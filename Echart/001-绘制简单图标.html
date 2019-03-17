@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>绘制简单图表</title>
+    <script src="echarts.js"></script>
+</head>
+<body>
+    <div id="main" style="width:600px; height:400px"></div>
+    <script>
+        // 基于dom 初始化echarts实例
+        let myChart = echarts.init(document.getElementById('main'));
+
+        // 制定图表配置项和数据
+        var option = {
+            title:{
+                text:'简单图表'
+            },
+            tooltip:{},
+            legend:{   // 图例
+                data:['销量','产量']
+            },
+            xAxis:{     // x 轴
+                data:['Kobe-AD',"Curry6","KD-11","air-jordan","PG3"]
+            },
+            yAxis:{},   // y 轴
+            series:[
+                {   // 系列
+                    name:'销量',
+                    type:'bar',
+                    color:'gray',
+                    data:[1000,1200,1500,2100,800]
+                },
+                {  
+                    name:'产量',
+                    type:'bar',
+                    color:'orange',
+                    data:[1500,2000,2500,2900,1500]
+                }
+            ]
+        }
+
+        // 使用指定的配置项和数据显示图表
+        myChart.setOption(option)
+
+        /* 小结：
+                                            (以下用 'e' 代表 echarts 实例)
+                echarts.init()  基于dom初始化echarts实例
+                e.setOption(option)     配置数据
+
+         */
+    </script>
+</body>
+</html>
