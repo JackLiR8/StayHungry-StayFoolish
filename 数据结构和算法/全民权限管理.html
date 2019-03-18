@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        let menuList = [
+            {
+                title:'会员管理',
+                children:[{title:'会员管理'}]
+            },{
+                title:"视频管理",
+                children:[
+                    {title:'视频管理'},
+                    {title:'视频审核'},
+                    {title:'视频查看'},
+                    {title:'视频lala'}
+                ]
+            },{
+                title:"评论管理",
+                children:[{title:'评论管理'}]
+            },{
+                title:'系统管理',
+                children:[
+                    {title:'系统管理1'},
+                    {title:'系统管理2'},
+                    {title:'系统管理3'},
+                ]
+            }
+            
+        ]
+        let privilegesArr = ['视频审核','视频lala','评论管理']
+        new_arr = menuList.reduce((acc,cur) => {
+            if (privilegesArr.includes(cur.title) ){
+                acc.push(cur)
+            }else if (cur.children.length > 1){
+                    let arr = cur.children.reduce((acc,cur) => {
+                        if (privilegesArr.includes(cur.title)) {
+                            acc.push(cur)
+                        }
+                        return acc
+                    },[])
+                    console.log('arr',arr)
+                    cur.children.splice(0)
+                    console.log('cur.children',cur.children)
+                    arr.forEach(e => {
+                        cur.children.push(e)
+                    })
+                    if(cur.children.length > 0) acc.push(cur)       // 此处注意不要push空数组
+            }
+        return acc
+        },[])
+
+        console.log("new_arr",new_arr)
+    </script>
+</body>
+</html>
