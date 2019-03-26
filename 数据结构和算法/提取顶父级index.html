@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        let arr = [{
+            roleCode:1,
+            children:[]
+        },{
+            roleCode:2,
+            children:[{
+                roleCode:3,
+                children:[]
+            }]
+        },{
+            roleCode:4,
+            children:[{
+                roleCode:5,
+                children:[]
+            },{
+                roleCode:6,
+                children:[{
+                    roleCode:7,
+                    children:[]
+                }]
+            }]
+        }]
+
+        function locateRole(arr,i){
+            // debugger;
+            let result = arr.reduce((acc,cur) => {
+                let index = '';
+                    if (i== 0 || i){
+                        index = i
+                    } else {
+                        index = arr.indexOf(cur);
+                    }
+                    acc[cur.roleCode] = index
+                    if (cur.children && cur.children.length > 0) {
+                        let child = locateRole(cur.children,index)
+                        Object.assign(acc,child)
+                    }
+                    return acc
+                },{})
+                return result
+        }
+        console.log(locateRole(arr))
+
+        /* function locateRole(arr){
+            debugger;
+            let result = arr.reduce((acc,cur) => {
+                    let index = arr.indexOf(cur);
+                    acc[cur.roleCode] = index
+                    if (cur.children && cur.children.length > 0) {
+                        let child = locateRole(cur.children)
+                        Object.assign(acc,child)
+                    }
+                    return acc
+                },{})
+                return result
+        }
+
+        let arr1 = [{code:1},{code:2}]
+        console.log(arr1.indexOf({code:2}))     -1 
+        
+         */
+    </script>
+</body>
+</html>
