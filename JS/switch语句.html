@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>switch</title>
+</head>
+<body>
+    <script>
+    /* 
+        switch 语句包含至少一个 case 代码块和一个可选的 default 代码块
+        switch 执行的是精确运算符 === ， 严格相等才会进入case代码块
+     */
+        // 1. 带break,执行完对应的case代码块后自动跳出
+        let a = 2 + 2;
+        switch (a) {
+            case 3 :
+            console.log('less')
+            break;
+        case 4 :
+            console.log('equal')
+            break;
+        case 5 :
+            console.log('more')
+            break;
+        default:
+            console.log('I dont know this value')
+        }
+
+        // 执行上面的代码，输出 'equal'
+        // 2. 若 case代码块 不带break, 则会不经任何判断直接执行之后的代码块,直到遇到break或者switch 代码块结束
+        switch (a) {
+            case 3 :
+            console.log('less')
+        case 4 :
+            console.log('equal')
+        case 5 :
+            console.log('more')
+        default:
+            console.log('I dont know this value')
+        }
+        /* 
+            equal
+            more
+            I dont know this value
+        */
+
+        // ------------------- case 分组 -------------------------
+        switch (a) {
+            case 4 :
+                console.log('right')
+                // break;
+            case 3:
+            case 5:
+                console.log('wrong')
+                // break;
+            default:
+                console.log('no idea')
+        }
+    </script>
+</body>
+</html>
