@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>柯里化</title>
+</head>
+<body>
+    <script>
+    /* 
+        柯里化是一项将调用形式为 f(a,b,c) 的函数转化为调用形式为 f(a)(b)(c) 的技术
+    */    
+
+    function curry(func) {
+        return function(a){
+            return function (b) {
+                return func(a,b)
+            }
+        }
+    }
+
+    function sum(a,b){
+        return a + b
+    }
+
+    let curriedSum = curry(sum)
+
+    console.log(curriedSum(3)(2))      // 5
+
+    /* 
+        curry(func) 的结果就是一层封装 function(a)
+        当他被调用时，就像sum(3) 这样， 它的参数被保存在词法环境中，然后返回一层系的封装function(b)
+        然后 sum(3)(2) 最后调用function(b), 传入参数 2
+    */
+
+    /* 
+        柯里化的高级实现更加复杂，他们会返回一个封装，允许函数提供所有的参数是被正常调用或者返回一个偏函数
+    */
+    function curry1 (f) {
+        return function(...args){
+            // 如果args.length == f.length , 那么调用 f, 否则返回一个偏函数，将f 传入的排在前面的参数作为 ...args
+        }
+    }
+
+    // 柯里化的目的？
+    /*  高级的柯里化同时允许函数正常调用和或租偏函数
+        例子：
+        有一个打印函数 log(date,importance,message) 格式化和输出信息
+
+    */
+
+    function log(date,importance,message) {
+        console.log(`[${date.getHours()}:${date.getMinutes()}] [${importance}] ${message}`)
+    }
+
+    
+    </script>
+</body>
+</html>
