@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+    let Util = {}
+    Util.hasOneOf = (userAccess, routeAccess) => {
+        return userAccess.some(_ => routeAccess.indexOf(_) > -1)
+    }
+
+    Util.showThisRoute = function (routeAccess, userAccess) {
+        if (typeof routeAccess === 'object' && Array.isArray(routeAccess)) {
+            return Util.hasOneOf(userAccess, routeAccess);
+        } else {
+            return routeAccess === userAccess;
+        }
+    };
+
+     let appRouter = [
+     {
+        path:'/video',
+        icon: 'logo-youtube',
+        name: 'video',
+        title: '视频管理',
+        // access:['super_admin','video_manage'],
+        children: [
+            {
+                path: 'platform',
+                name: 'platform',
+                title: '平台视频管理',
+            },
+            {
+                path: 'upload-list',
+                name: 'upload-list',
+                title: '上传视频审核',
+                access:['video_edit'],
+            },
+        ]
+    },
+    {
+        path:'/discuss',
+        icon: 'ios-create-outline',
+        name: 'discuss',
+        title: '评论管理',
+        access:['review_manage'],
+        children: [
+            {
+                path: 'discuss-list',
+                name: 'discuss-list',
+                title: '评论列表',
+               
+            },
+        ]
+    },
+    ] 
+
+    let userAccess = ['review_manage']
+    
+    function accFilter(){
+        let menuList = [];
+        appRouter.forEach((item, index) => {
+            // debugger
+            if (item.access !== undefined) {
+                if (Util.showThisRoute(item.access, userAccess)) {
+                    menuList.push(item);
+                } else {
+                    let childrenArr = []; 
+                    let len = ''
+                    childrenArr = item.children.filter(child => {
+                        if (child.access !== undefined) {
+                            if(Util.showThisRoute(child.access, userAccess)){
+                                return child;
+                            }
+                        }
+                    });
+                    if(childrenArr!==undefined && childrenArr.length > 0){
+                        len =  menuList.push(item)
+                        menuList[len - 1].children = childrenArr;
+                    }
+                }
+            } else {
+                if (item.children.length === 1) {
+                    menuList.push(item);
+                } else {
+                    let len = ''
+                    let childrenArr = [];
+                    childrenArr = item.children.filter(child => {
+                        if (child.access !== undefined) {
+                            if (Util.showThisRoute(child.access, userAccess)) {
+                                return child;
+                            }
+                        } else {
+                            return child;
+                        }
+                    });
+                    if(childrenArr!==undefined && childrenArr.length > 0){
+                        len =  menuList.push(item)
+                        menuList[len - 1].children = childrenArr;
+                    }
+                }
+            }
+        });
+        return menuList
+    }
+
+    console.log(accFilter(appRouter))
+
+    /* 
+        可用于控制路由菜单的显示，控制权限
+        
+        1. 拥有父权限可以直接查看子路由
+        2. 所有的权限都以 access:['super_admin'] 这种数组的方式呈现
+    */
+    </script>
+</body>
+</html>
