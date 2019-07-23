@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        let arr = [{
+                    id:1,
+                    parentId : 0,
+                    name:'1',
+                    permissionCode:'code1',
+                    children:[]
+                },{
+                    id:2,
+                    parentId : 0,
+                    name:'2',
+                    permissionCode:'code2',
+                    children:[{
+                        id:3,
+                        parentId : 2,
+                        name:'3',
+                        permissionCode:'code3',
+                        children:[{
+                            id:4,
+                            parentId : 3,
+                            name:'4',
+                            permissionCode:'code4',
+                            children:[]
+                        },]
+                    },]
+                },];
+        function listPermi(data){
+            return data.reduce((acc,cur) => {
+                let obj = {
+                    id:cur.id,
+                    parentId : cur.parentId,
+                    name:cur.name,
+                    permissionCode:cur.permissionCode,
+                }
+                acc.push(obj)
+                let child = []
+                debugger;
+                if(cur.children.length > 0){
+                    child = listPermi(cur.children)
+                }
+                return acc = [...acc,...child]
+            },[])
+        } 
+        console.log(listPermi(arr))
+    </script>
+</body>
+</html>

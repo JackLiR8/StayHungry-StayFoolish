@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>偏函数</title>
+</head>
+<body>
+    <script>
+        /* 
+            偏函数应用：创建一个新函数，同时将部分参数替换成特定值
+            
+            为何使用偏函数？
+            我们可以创建独立的非匿名函数，在使用的过程中不需要每次都传入第一个参数
+            在某些场景，我们需要一个通用的函数，并且像哟啊方便的获取他的变体，可以使用偏函数实现
+        */
+        
+        function multi(a,b){
+            return a * b
+        }
+
+        let double = multi.bind(null,2)
+        console.log(double(3))      // 6
+
+        let triple = multi.bind(null,3)
+        console.log(triple(3))      // 9
+
+
+        // 偏函数
+        function send(from,to,text){
+            return `
+            ${from}寄给${to}: 
+                ${text}`
+        }
+        
+        let sendTo = send.bind(null,'Jack')
+        console.log(sendTo('Sophia','Hi,you looks gorgeous!'))
+
+        /* 
+            Jack寄给Sophia: 
+                Hi,you looks gorgeous!
+        */
+        
+        console.log(sendTo('Rachel', 'hi,how are you doing'))
+        /* 
+            Jack寄给Rachel: 
+                hi,how are you doing
+        */
+
+
+        // 如果我们不想绑定this该如何实现偏函数？
+        function partial (func,...argsBound){
+            return function(...args) {
+                return func.call(this,...argsBound,...args)
+            }
+        }
+
+        // 用法
+        let user = {
+            name:'Jack',
+            say(time,phrase){
+                return (`[${time}] ${this.name}: ${phrase}`)
+            }
+        }
+
+        user.sayNow = partial(user.say, new Date().getHours() + ':' + new Date().getMinutes())
+
+        console.log(user.sayNow('Hello!'))
+        // [23:18] Jack: Hello!
+
+        console.log(user.sayNow("How's your day ?"))
+        // [23:19] Jack: How's your day ?
+
+        /* 
+            partial(fun[,arg1,arg2...]) 调用的是一个基于func的封装函数：
+            this 与 func 中的this指向一致；
+            先传入来自片函数的参数...argsBound；
+            在传入来之封装函数的参数 ...args 
+        */
+    </script>
+</body>
+</html>

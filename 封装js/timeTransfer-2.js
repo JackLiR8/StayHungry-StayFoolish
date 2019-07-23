@@ -24,10 +24,13 @@ export default function timeTransfer(time){
     let day = CD - TD;
     
     if (day < 1){
-        let time_lag = current.getTime() - thatTime.getTime()
+        let time_lag = current.getTime() - thatTime.getTime() - 8
         let hours = new Date(time_lag).getHours()
         if(hours<1){
             let minute = new Date(time_lag).getMinutes()
+            if(minute < 5){
+                return '刚刚'
+            }
             return minute + '分钟前'
         }
         return TH+":"+TMin
