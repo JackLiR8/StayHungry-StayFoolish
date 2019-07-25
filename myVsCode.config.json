@@ -1,0 +1,21 @@
+{
+    "terminal.integrated.shell.windows": "C:\\Program Files\\Git\\bin\\bash.exe",
+    "search.followSymlinks": false,
+    "files.autoSave": "afterDelay",
+    "editor.wordWrap": "on",
+    "editor.fontSize": 18,
+    "workbench.iconTheme": "material-icon-theme",
+    "editor.quickSuggestions": {
+        "other": true,
+        "comments": true,
+        "strings": true
+    },
+    "prettier.jsxSingleQuote": true,
+    "prettier.singleQuote": true,
+    "prettier.semi": false,
+    "diffEditor.ignoreTrimWhitespace": false,
+    "[javascript]": {
+        "editor.defaultFormatter": "esbenp.prettier-vscode"
+    },
+    "files.eol": "\n"
+}

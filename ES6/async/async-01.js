@@ -1,21 +1,12 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>async函数</title>
-</head>
-<body>
-    <script>
-    /*  async函数是Generator函数的语法糖， Generator函数中的 * 用 async 代替， yield 用 await 代替
+console.group(' ---------------- async-01 ----------------')
+/*  async函数是Generator函数的语法糖， Generator函数中的 * 用 async 代替， yield 用 await 代替
 
         async 函数对 Generator 函数的改进：
-            1. 内置执行器。 async 函数的执行与普通函数一样，只需要一行，Generator 函数需要调用 next 方法或者使
-                          用 co 模块才能真正执行
+            1. 内置执行器。 async 函数的执行与普通函数一样，只需要一行，Generator 函数需要调用 
+            next 方法或者使用 co 模块才能真正执行
             2. 更好的语义
-            3. 更广的适用性     co 模块约定，yield 后面只能跟 Thunk 函数或者 promise 对象， await 后面可以
-                             是 Promise 对象和原始类型的值（此时等同于同步操作）。
+            3. 更广的适用性     co 模块约定，yield 后面只能跟 Thunk 函数或者 promise 对象， await
+                                后面可以是 Promise 对象和原始类型的值（此时等同于同步操作）。
 
             4. 返回值是 Promise     可以用 then 方法进行下一步操作
 
@@ -52,7 +43,7 @@
         console.log(value)
      }
 
-     asyncPrint('hello',2000)
+     asyncPrint('hello',500)
 
     /* ------------------------------------------- 语法 ---------------------------------------- */
     // 1. 返回 Promise 对象
@@ -69,12 +60,12 @@
         }
         a().then(
             v => console.log(v),
-            e => console.log(e)
+            e => console.error(e)
         )
 
     // 2. Promise 对象的状态变化
         /*  async 函数返回的 Promise 对象必须等到内部所有的 await 命令后面的 Promise 对象执行完毕后才会发生
-            状态改变， 除非遇到 return 语句或者抛出错误。 */
+            状态改变， 除非遇到 return 语句或者抛出错误。 
 
         async function getTitle(url){
             let response = await fetch(url);
@@ -84,6 +75,6 @@
 
         getTitle('https://tc39.github.io/ecma262/').then(v => console.log(v))
         // ECMAScript® 2020 Language&nbsp;Specification
-    </script>
-</body>
-</html>
+
+        */
+console.groupEnd()
