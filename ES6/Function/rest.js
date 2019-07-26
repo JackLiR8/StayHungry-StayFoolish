@@ -1,14 +1,7 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>rest参数</title>
-</head>
-<body>
-    <script>
-        /* 
++(() => {
+    console.group('----------- rest 参数 -----------')
+
+     /* 
             ES6引入rest参数(形式为"...变量名")，用于获取函数多余参数，
             这样就不需要使用 arguments 对象了。rest参数搭配的变量是
             一个数组，该变量将多余的参数放入其中。
@@ -17,15 +10,15 @@
         */    
         
     // 1.
-        function add(...vals) {     // 利用rest参数可以传入任意数目的参数
-            let sum = 0;
-            for (let val of vals){
-                sum += val
-            }
-            return sum
+    function add(...vals) {     // 利用rest参数可以传入任意数目的参数
+        let sum = 0;
+        for (let val of vals){
+            sum += val
         }
-        
-        console.log(add(1,2,3))     // 6
+        return sum
+    }
+    
+    console.log(add(1,2,3))     // 6
 
     // 2.
         const sortArr = (...numbers) => numbers.sort()
@@ -51,6 +44,6 @@
             console.log((function(a){}).length)         // 1
             console.log((function(a,...b){}).length)    // 1
             console.log((function(...a){}).length)      // 0
-    </script>
-</body>
-</html>
+
+        console.groupEnd()
+})()
