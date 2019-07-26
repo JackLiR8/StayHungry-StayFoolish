@@ -44,7 +44,7 @@
     }
 
     // 柯里化的目的？
-    /*  高级的柯里化同时允许函数正常调用和或租偏函数
+    /*  高级的柯里化同时允许函数正常调用和获取偏函数
         例子：
         有一个打印函数 log(date,importance,message) 格式化和输出信息
 
@@ -53,8 +53,7 @@
     function log(date,importance,message) {
         console.log(`[${date.getHours()}:${date.getMinutes()}] [${importance}] ${message}`)
     }
-
-    
     </script>
+    <script src="./curry.js"></script>
 </body>
 </html>
