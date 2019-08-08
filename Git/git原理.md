@@ -63,6 +63,9 @@ Git 用以计算校验和的机制叫做 SHA-1 散列（hash，哈希）。Git �
         |___f1/
 
 ```
+`git add .`
+
+`git commit -m 'git原理 object/ 目录'`
 
 + **HEAD 文件里有什么？**   
      `ref: refs/heads/master`  
