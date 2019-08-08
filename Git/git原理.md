@@ -36,3 +36,16 @@ Git 用以计算校验和的机制叫做 SHA-1 散列（hash，哈希）。Git �
 1. 目录中修改文件  
 2. 暂存文件（将文件的快照放入暂存区域）
 3. 提交更新，找到暂存区域的文件，将快照永久性存储到 Git 仓库目录。
+
+## 文件的状态变化周期
+
+>你工作目录下的每一个文件都不外乎这两种状态：**已跟踪** 或 **未跟踪**。   
+已跟踪的文件是指那些被纳入了版本控制的文件，在上一次快照中有它们的记录，在工作一段时间后，它们的状态可能处于**未修改**，**已修改** 或 **已暂存**。 工作目录中除已跟踪文件以外的所有其它文件都属于未跟踪文件，它们既不存在于上次快照的记录中，也没有放入暂存区。
+
+![avatar](https://git-scm.com/book/en/v2/images/lifecycle.png)
+
+**状态变化周期**
+
+![avatar](https://github.com/JackLiR8/StayHungry-StayFoolish/blob/master/assets/img/git-file-life-circle.png?raw=true)
+
+# Git 分支
