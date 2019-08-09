@@ -6,7 +6,7 @@
 + 集中化版本控制
 ![avatar](https://git-scm.com/book/en/v2/images/centralized.png)
 
-+ 分布式版本控制
++ 分布式版本控制  
 ![avatar](https://git-scm.com/book/en/v2/images/distributed.png)
 
 ## 操作本地化
