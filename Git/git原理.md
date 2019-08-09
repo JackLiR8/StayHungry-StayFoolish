@@ -61,6 +61,7 @@ git 有一个 HEAD 指针，指向当前所在的本地分支（译注：将 HEA
 
 ## 分支开发工作流
 ### 长期分支
+在整个项目开发周期的不同阶段，你可以同时拥有多个开放的分支；你可以定期地把某些特性分支合并入其他分支中。  
 
 ![avatar](https://git-scm.com/book/en/v2/images/lr-branches-1.png)
 <center>渐进稳定分支线形图</center>
@@ -69,8 +70,8 @@ git 有一个 HEAD 指针，指向当前所在的本地分支（译注：将 HEA
 <center>渐进稳定流水线图</center>
 
 ### 特性分支
-
-
+ 特性分支是一种短期分支，它被用来实现单一特性或其相关工作。
+![avatar](https://github.com/JackLiR8/StayHungry-StayFoolish/blob/master/assets/img/git-branch-01.png?raw=true)
 
 # Git 原理
 ## .git/ 目录下都有什么？
