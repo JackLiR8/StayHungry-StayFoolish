@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style lang="less">
+        /* less */
+        .diy-table {
+            border: 1px solid gray;
+        }
+        .info-item {
+        min-height: 50px;
+        display: table;
+        width: 100%;
+        border-bottom: 1px solid @table-boder-color;
+        &-title {
+            display: table-cell;
+            text-align: center;
+            background: @title-bg;
+            vertical-align: middle;
+            // min-height: 50px;
+            width: 280px;
+            font-size: 18px;
+            padding: 10.5px;
+            height: 100%;
+            border-right: 1px solid @table-boder-color;
+        }
+        &-content {
+            display: table-cell;
+            text-align: center;
+            min-height: 50px;
+            max-width: 658px;
+            font-size: 16px;
+            padding: 12px;
+            .content-text {
+                display: inline-block;
+                text-align: left;
+                word-break:break-all;
+                word-wrap:break-word;
+
+            }
+        }
+    }
+    .info-item:last-of-type {
+        border-bottom: none;
+    }
+    </style>
+</head>
+<body>
+    <ul class="diy-table">
+        <li class="info-item">
+            <div class="info-item-title">视频描述</div>
+            <div class="info-item-content">
+                <span class="content-text">123asd</span> 
+            </div>
+        </li>
+    </ul>
+</body>
+</html>
