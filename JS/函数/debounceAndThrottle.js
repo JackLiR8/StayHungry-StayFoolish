@@ -10,10 +10,10 @@
    */
   function debounce(fn, delay) {
     let timer = '';
-    return function(args) {
+    return function(...args) {
       clearTimeout(timer);
       timer = setTimeout(() => {
-        fn.call(this, args)
+        fn.call(this, ...args)
       }, delay);
     }
   }
@@ -25,14 +25,13 @@
    */
   function  throttle(fn, gap) {
     let timer = ''
-    return function () {
-      let _args = arguments;
+    return function (...args) {
       if (timer) {
         return
       }
 
+      fn.apply(this, args);
       timer = setTimeout(() => {
-        fn.apply(this, _args);
         timer = null;
       }, gap);
     }
