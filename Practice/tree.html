@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+<body>
+  <script>
+    const arr = [
+      {name: '2.2.2', id: 9, parent_id: 7},
+      {name: '1', id: 1, parent_id:''},
+      {name: '1.1', id: 3, parent_id: 1},
+      {name: '2.1', id: 5, parent_id: 2},
+      {name: '2', id: 2, parent_id: ''},
+      {name: '1.1.1', id: 6, parent_id: 3},
+      {name: '2.2', id: 7, parent_id: 2},
+      {name: '2.2.1', id: 8, parent_id: 7},
+      {name: '1.2', id: 4, parent_id: 1},
+    ]
+
+    function toTree(tree = [], arr) {
+      for (const v of arr) {
+        if (!v.parent_id) {
+          let children = arr.filter(ele => ele.parent_id = v.id);
+          Object.assign(v, {children});
+          tree.push(v);
+        } else {
+          // 有 parent_id
+          let children = arr.filter(ele => ele.parent_id = v.id);
+          Object.assign(v, {children});
+
+          if (tree.length) {
+            for (const parent of tree) {
+              if (parent.children.length) {
+                toTree(parent.children, arr)
+              }
+            }
+          }
+        }
+      }
+
+      return tree
+    }
+  </script>
+</body>
+</html>
