@@ -1,7 +1,7 @@
 +(() => {
 
   const arr = [
-    {name: '2-2-2', id: 9, parent_id: 7},
+    {name: '2-2-2', id: 12, parent_id: 7},
     {name: '1', id: 1, parent_id:''},
     {name: '1-1', id: 3, parent_id: 1},
     {name: '2-1', id: 5, parent_id: 2},
@@ -10,9 +10,11 @@
     {name: '2-2', id: 7, parent_id: 2},
     {name: '2-2-1', id: 8, parent_id: 7},
     {name: '1-1-1-1', id: 9, parent_id: 6},
-    {name: '2-2-1', id: 10, parent_id: 7},
+    {name: '2-2-2-1', id: 10, parent_id: 12},
     {name: '2-2-3', id: 11, parent_id: 7}
   ];
+
+  const arr1 = [...arr];
 
   /**
    * 从一个数组里面把另一个数组里的元素全部剔除
@@ -76,17 +78,33 @@
   console.log(tree)
 
   // ----------------------- 优化 --------------------
+
+  /**
+   * 把具有父子关系的数组转成树形结构
+   * @param {Array} data  原数组 
+   * @param {Number, String=} parentId 
+   * 
+   * @return {Array} 树形结构数组
+   */
   function getTree(data, parentId = '') {
-    let [tree, temp] = [[], []];
+    let tree = [];
 
     for (const v of data) {
       if (v.parent_id === parentId) {
+
+        // 判断 child 是否有 grandchild
+        const hasChild = data.find(ele => ele.parent_id === v.id);
+        if (hasChild) {
+          v.children = getTree(data, v.id);
+        }
+
         tree.push(v)
-      } else {
-        temp = getTree(data, v.id)
       }
     }
 
+    return tree
   }
 
+  const myTree = getTree(arr1);
+  console.log('myTree', myTree)
 })()
