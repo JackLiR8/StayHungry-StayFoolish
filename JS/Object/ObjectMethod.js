@@ -1,3 +1,10 @@
+/**
+ * @file
+ * Object的方法： 
+ *    Object.create() 
+ *    Object.defineProperty()
+ *    Object.defineProperties()
+ */
 +(() => {
   // ----------------- Object.create() -----------------
   
