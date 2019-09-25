@@ -70,4 +70,39 @@
   let getInheritance = Object.create(proto)
   getInheritance.foo
   // GET foo
+
+  // ------------------- 例：利用get拦截，实现一个生成各种 DOM 节点的通用函数dom -------------------
+  const dom = new Proxy({}, {
+    get(target, property) {
+      return function (attrs = {}, ...children) {
+        const el = document.createElement(property);
+
+        for (const prop of Object.keys(attrs)) {
+          el.setAttribute(prop, attrs[prop])
+        }
+
+        for (let child of children) {
+          if (typeof child === 'string') {
+            child = document.createTextNode(child);
+          }
+          el.appendChild(child)
+        }
+
+        return el;
+      }
+    }
+  });
+
+  const el = dom.div({},
+    'Hello, my name is ',
+    dom.a({href: '123'}, 'Jack.'),
+    ' I like:',
+    dom.ul({},
+      dom.li({}, 'Basketball'),
+      dom.li({}, 'Football'),
+      dom.li({}, 'Guitar')
+    )
+  )
+
+  document.body.appendChild(el);
 })()
