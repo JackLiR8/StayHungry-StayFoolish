@@ -2,6 +2,8 @@
 /**
  * @file Proxy 实例方法
  * ownKeys()
+ * preventExtensions()
+ * setPrototypeOf()
  */
 
   /**
@@ -139,4 +141,46 @@
 
   catchError(Object.getOwnPropertyNames, unExten);
 
+/* ---------------------------- preventExtensions() ----------------------------
+
+  preventExtensions方法拦截Object.preventExtensions()。该方法必须返回一个布尔值，否则会被自动
+  转为布尔值。
+  
+  这个方法有一个限制，只有目标对象不可扩展时（即Object.isExtensible(proxy)为false），
+  proxy.preventExtensions才能返回true，否则会报错。为了防止出现这个问题，通常要在
+  proxy.preventExtensions方法里面，调用一次Object.preventExtensions。
+*/
+  let prevProxy = new Proxy({}, {
+    preventExtensions(target) {
+      console.log('called');
+      Object.preventExtensions(target);
+      return true;
+    }
+  });
+
+  Object.preventExtensions(prevProxy);
+  prevProxy.a = '123';
+  console.log(prevProxy)  // Proxy {}
+
+/* ---------------------------- setPrototypeOf() ----------------------------
+
+  setPrototypeOf方法主要用来拦截Object.setPrototypeOf方法。
+
+    setPrototypeOf(target, proto)
+
+  注意：
+    该方法只能返回布尔值，否则会被自动转为布尔值。另外，如果目标对象不可扩展（non-extensible），
+    setPrototypeOf方法不得改变目标对象的原型。
+*/
+
+  let setTarget = function () {};
+
+  let setProxy = new Proxy(setTarget, {
+    setPrototypeOf(target, proto) {
+      throw new Error('Changing the prototype is forbidden');
+    }
+  });
+
+  Object.setPrototypeOf(setProxy, {})   // Error
+  // 上面例子中，修改setProxy 的原型就会报错
 })()
