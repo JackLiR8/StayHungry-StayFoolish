@@ -1,9 +1,9 @@
 /**
- * @file
- * Object的方法： 
- *    Object.assign()
- *    Object.getPrototypeOf()
- *    Object.is() 
+ * @file Object的方法： 
+ * Object.assign()
+ * Object.getPrototypeOf()
+ * Object.is() 
+ * Object.isExtensible()
  */
 
 +(() => {
@@ -78,4 +78,23 @@
   console.log(Object.is(NaN, NaN));   // true
   console.log(Object.is(+0, -0));     // false
 
+/* --------------------- Object.isExtensible() ---------------------
+
+    Object.isExtensible() 方法判断一个对象是否是可扩展的（是否可以在它上面添加新的属性）。
+ */
+    // 新对象默认是可扩展的.
+    var empty = {};
+    Object.isExtensible(empty); // === true
+
+    // ...可以变的不可扩展.
+    Object.preventExtensions(empty);
+    Object.isExtensible(empty); // === false
+
+    // 密封对象是不可扩展的.
+    var sealed = Object.seal({});
+    Object.isExtensible(sealed); // === false
+
+    // 冻结对象也是不可扩展.
+    var frozen = Object.freeze({});
+    Object.isExtensible(frozen); // === false
 })()
