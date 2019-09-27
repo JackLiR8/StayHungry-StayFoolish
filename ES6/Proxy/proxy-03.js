@@ -2,6 +2,11 @@
 /**
  * @file proxy 实例方法
  * construct()
+ * deleteProperty()
+ * defineProperty()
+ * getOwnPropertyDescriptor()
+ * getPrototypeOf()
+ * isExtensible()
  */
 
 /* ------------------------- construct() -------------------------
@@ -90,4 +95,77 @@
   // 拦截器的descriptor.writable 默认为false, 不可进行写操作
   defineProxy.foo = '2'
   console.log(defineProxy.foo)  // '123'
+
+/* ------------------------- getOwnPropertyDescriptor() -------------------------
+  getOwnPropertyDescriptor方法拦截Object.getOwnPropertyDescriptor()，返回一个
+  属性描述对象或者undefined。
+
+    getOwnPropertyDescriptor(target, key)
+*/
+  let ownHandler = {
+    getOwnPropertyDescriptor(target, key) {
+      if (key[0] === '_') {
+        return
+      }
+
+      return Object.getOwnPropertyDescriptor(target, key)
+    }
+  }
+
+  let ownTarget = {_foo: '123', bar: '456'};
+
+  let ownProxy = new Proxy(ownTarget, ownHandler);
+
+  console.log(Object.getOwnPropertyDescriptor(ownProxy, 'wat'))   // undefined
+  console.log(Object.getOwnPropertyDescriptor(ownProxy, '_foo'))  // undefined
+  console.log(Object.getOwnPropertyDescriptor(ownProxy, 'bar'))
+  
+/* ------------------------- getPrototypeOf() ------------------------- 
+  getPrototypeOf方法主要用来拦截获取对象原型。具体来说，拦截下面这些操作。
+      + Object.prototype.__proto__
+      + Object.prototype.isPrototypeOf()
+      + Object.getPrototypeOf()
+      + Reflect.getPrototypeOf()
+      + instanceof
+
+    注意:
+      getPrototypeOf方法的返回值必须是对象或者null，否则报错。另外，如果目标对象
+      不可扩展（non-extensible）， getPrototypeOf方法必须返回目标对象的原型对象。
+*/
+  let proto = {};
+  let protoHanlder = {
+    getPrototypeOf(target) {
+      return proto;
+    }
+  };
+
+  let protoProxy = new Proxy(proto, protoHanlder);
+  console.log(Object.getPrototypeOf(protoProxy) === proto)  // true
+
+/* ------------------------- isExtensible() -------------------------
+  isExtensible方法拦截Object.isExtensible操作。
+      isExtensible(target)
+    
+    注意:
+      1. 该方法只能返回布尔值，否则返回值会被自动转为布尔值。
+      2. 这个方法有一个强限制，它的返回值必须与目标对象的isExtensible属性
+        保持一致，否则就会抛出错误。
+*/
+  let t = {}
+  // t = Object.seal({});   密封对象不可扩展
+  // t = Object.freeze({}); 冻结对象不可扩展
+
+  let p2 = new Proxy(t, {
+    isExtensible(target) {
+      return false
+    }
+  })
+
+  try {
+    Object.isExtensible(p2)
+  } catch (err) {
+    console.error(err)
+  }
+  // TypeError: 'isExtensible' on proxy: trap result  does not reflect 
+  // extensibility of proxy target (which is 'true')
 })()
