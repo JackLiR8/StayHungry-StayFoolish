@@ -3,6 +3,10 @@
  * Reflect.construct()
  * Reflect.getPrototypeOf()
  * Reflect.setPrototypeOf()
+ * Reflect.apply()
+ * Reflect.defineProperty()
+ * Reflect.getOwnPropertyDescriptor()
+ * Reflect.isExtensible()
  */
 
 +(() => {
@@ -46,5 +50,56 @@
   Reflect.setPrototypeOf(myObj, proto);
   console.log(Reflect.getPrototypeOf(myObj) === proto)  // true
 
+/* ------------------------- Reflect.apply() -------------------------
 
+  Reflect.apply(func, thisArg, args)
+
+  Reflect.apply方法等同于Function.prototype.apply.call(func, thisArg, args)，
+  用于绑定this对象后执行给定函数。 */
+
+/* ------------------------- Reflect.defineProperty() -------------------------
+
+  Reflect.defineProperty(target, porpKey, descriptor)
+
+  Reflect.defineProperty方法基本等同于Object.defineProperty(未来会废除)，用来为对象定义属性。
+  如果Reflect.defineProperty的第一个参数不是对象，就会抛出错误.  */
+
+  const def = new Proxy({}, {
+    defineProperty(target, prop, descriptor) {
+      console.log(descriptor);
+      return Reflect.defineProperty(target, prop, descriptor);
+    }
+  });
+
+  def.foo = 1;
+  // {value: 1, writable: true, enumerable: true, configurable: true}
+
+/* ------------------------- Reflect.getOwnPropertyDescriptor() -------------------------
+
+  Reflect.getOwnPropertyDescriptor(target, propertyKey)
+
+  Reflect.getOwnPropertyDescriptor基本等同于Object.getOwnPropertyDescriptor，用于得到指定属性
+  的描述对象，将来会替代掉后者。*/
+
+  let ownObj = {};
+  Reflect.defineProperty(ownObj, 'own', {
+    value: 'myself',
+  });
+
+  console.log(Reflect.getOwnPropertyDescriptor(ownObj, 'own'));
+  // {value: "myself", writable: false, enumerable: false, configurable: false}
+
+/* ------------------------- Reflect.isExtensible() -------------------------
+
+  Reflect.isExtensible(obj)
+
+  Reflect.isExtensible方法对应Object.isExtensible，返回一个布尔值，表示当前对象是否可扩展。
+
+  如果参数不是对象，Object.isExtensible会返回false，因为非对象本来就是不可扩展的，
+  而Reflect.isExtensible会报错。*/
+
+  console.log(Reflect.isExtensible(ownObj));  // true
+
+  Reflect.preventExtensions(ownObj);
+  console.log(Reflect.isExtensible(ownObj));  // false
 })()
