@@ -7,6 +7,8 @@
  * Reflect.defineProperty()
  * Reflect.getOwnPropertyDescriptor()
  * Reflect.isExtensible()
+ * Reflect.preventExtensions()
+ * Reflect.ownKeys()
  */
 
 +(() => {
@@ -102,4 +104,28 @@
 
   Reflect.preventExtensions(ownObj);
   console.log(Reflect.isExtensible(ownObj));  // false
+
+/* ------------------------- Reflect.preventExtensions() -------------------------
+
+  Reflect.preventExtensions对应Object.preventExtensions方法，用于让一个对象变为不可扩展。
+  它返回一个布尔值，表示是否操作成功。*/
+
+/* ------------------------- Reflect.ownKeys() -------------------------
+
+  Reflect.ownKeys方法用于返回对象的所有属性，基本等同于Object.getOwnPropertyNames与
+  Object.getOwnPropertySymbols之和。
+*/
+  let keyObj = {
+    a: 1,
+    b: 2,
+    [Symbol.for('c')]: 3,
+    [Symbol.for('d')]: 4,
+  };
+
+  console.log(Object.getOwnPropertyNames(keyObj));
+  // ["a", "b"]
+  console.log(Object.getOwnPropertySymbols(keyObj));
+  // [Symbol(c), Symbol(d)]
+  console.log(Reflect.ownKeys(keyObj));
+  // ["a", "b", Symbol(c), Symbol(d)]
 })()
