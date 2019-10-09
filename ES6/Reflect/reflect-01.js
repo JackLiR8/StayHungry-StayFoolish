@@ -3,6 +3,7 @@
  * Reflect.get()
  * Reflect.set()
  * Reflect.has()
+ * Reflect.deleteProperty()
  */
 
 +(() => {
@@ -114,4 +115,33 @@
   拦截。这是因为Proxy.set的receiver参数总是指向当前的 Proxy实例（即上例的obj），而Reflect.set一旦传入
   receiver，就会将属性赋值到receiver上面（即obj），导致触发defineProperty拦截。如果Reflect.set没有传入
   receiver，那么就不会触发defineProperty拦截。 */
+
+/* ----------------------- Reflect.has() -----------------------
+
+  Reflect.has方法对应name in obj里面的in运算符。
+  如果Reflect.has()方法的第一个参数不是对象，会报错。 */
+  let hasObj = {
+    foo: 1,
+  };
+
+  // 旧写法
+  'foo' in hasObj;
+
+  // 新写法
+  Reflect.has(hasObj, 'foo')
+
+/* ----------------------- Reflect.deleteProperty() -----------------------
+
+  Reflect.deleteProperty方法等同于delete obj[name]，用于删除对象的属性。
+
+  该方法返回一个布尔值。如果删除成功，或者被删除的属性不存在，返回true；
+  删除失败，被删除的属性依然存在，返回false。
+
+  如果Reflect.deleteProperty()方法的第一个参数不是对象，会报错。 */
+
+  const delObj = {foo: 1, bar: 2};
+
+  Reflect.deleteProperty(delObj, 'foo');
+  console.log(delObj)
+  // {bar: 2}
 })()
