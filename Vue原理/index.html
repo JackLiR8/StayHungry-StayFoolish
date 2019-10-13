@@ -7,6 +7,21 @@
   <title>Vue原理</title>
 </head>
 <body>
-  
+  <div id="app">
+    <div>这里是“a.a”: {{a.a}}</div>
+    <div>这里是“b”: {{b}}</div>
+  </div>
+  <script src="./observe.js"></script>
+  <script>
+    let app = new Vue({
+      el: '#app',
+      data: {
+        a: {
+          a: 'this is a.a',
+        },
+        b: 'I am b',
+      }
+    });
+  </script>
 </body>
 </html>
