@@ -2,33 +2,30 @@
  * @file 给domString 中的img添加样式/去除样式
  */
 
-const domString = `1324234<figure class="image"><img src="https://123.jpg"><img src="https://456.jpg"></figure>`
-
-let c = imgTagAddStyle(domString)
-let d = tagRidStyle(c)
-console.log('cccc:', c)
-console.log('dd-dd:', d)
+const domString = `1324234<figure class="image"><img src="https://yc-test-1257265770.cos.ap-guangzhou.myqcloud.com/PC/img/2019/12/14/1576288647483DSC_0490.JPG"></figure>`
 
 /**
- * 给string中的img添加style
- * @param {String} htmlstr dom-string
- * @return {String} 
+ * DomString 包裹在html里并给图片添加样式，返回Blob
+ * @param {String} domString
+ * @return {Blob}  
  */
-function imgTagAddStyle(htmlstr) {
+function wrapDom(domString) {
+  let arr = [
+    `<html><head><style>img {max-width: 100%; height: auto;}</style></head><body>`, 
+    domString,
+    `</body></html>`
+  ];
 
-  // 正则匹配不含style="" 或 style='' 的img标签
-  const regex1 = new RegExp("(i?)(\<img)(?!(.*?style=['\"](.*)['\"])[^\>]+\>)", 'gmi')
-  htmlstr = htmlstr.replace(regex1, '$2 style="max-width:100vw;height:auto;"$3')
-
-  return htmlstr
+  return new Blob(arr, { type: 'text/html;charset=utf-8' })
 }
 
 /**
- * 去除string中标签的style
- * @param {String} htmlstr - dom-string
- * @return {String}
+ * 提取DomString中body的innerHTML
+ * @param {String} domStr
+ * @return {String} body的innerHTML 
  */
-function tagRidStyle(htmlstr) {
-  htmlstr = htmlstr.replace(/\s?style\s*?=\s*?(['"])[\s\S]*?\1/g, '')
-  return htmlstr
+function extractContent(domStr) {
+  let html = document.createElement('html');
+  html.innerHTML = domStr;
+  return html.querySelector('body').innerHTML;
 }
