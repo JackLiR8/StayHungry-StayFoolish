@@ -11,7 +11,7 @@ const domString = `1324234<figure class="image"><img src="https://yc-test-125726
  */
 function wrapDom(domString) {
   let arr = [
-    `<html><head><style>img {max-width: 100%; height: auto;}</style></head><body>`, 
+    `<html><head><style>img{max-width:100%;height:auto;}</style></head><body>`, 
     domString,
     `</body></html>`
   ];
