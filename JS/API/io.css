@@ -1,0 +1,12 @@
+#container {
+  height: 400px;
+  width: 400px;
+  margin: auto;
+  overflow-y: scroll;
+  border: 2px solid lightsteelblue;
+}
+ol li {
+  height: 200px;
+  margin: 10px 0;
+  background: lightseagreen;
+}
