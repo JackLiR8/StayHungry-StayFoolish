@@ -36,9 +36,10 @@ const options = {
   root: document.getElementById('container'),
 }
 
-const callback = ([entry]) => {
+function callback([entry]) {
   if (entry.isIntersecting) {
-    console.log(`li3 entered`, entry)
+    alert(`li3 entered`, entry)
+    observer.disconnect()
   }
 }
 
@@ -85,6 +86,10 @@ function query(selector) {
   return Array.from(document.querySelectorAll(selector))
 }
 
+// --------------------------------------- lazy img demo ---------------------------------------
+/**
+ * imgObserver 实现懒加载图片
+ */
 function getImgObserver() {
   const options = {
     root: document.querySelector('img-box'),
@@ -92,7 +97,7 @@ function getImgObserver() {
   const imgObserver =  new IntersectionObserver(entries => {
     for (const entry of entries) {
       if (entry.isIntersecting) {
-        console.log('--- img ---',entry)
+        console.log('--- new img show ---')
         const { target } = entry
         target.src = target.getAttribute('datasrc')
         imgObserver.unobserve(target)
@@ -111,3 +116,6 @@ function produceLazyImg() {
   }
 }
 produceLazyImg()
+
+// --------------------------------------- 无限滚动 ---------------------------------------
+
