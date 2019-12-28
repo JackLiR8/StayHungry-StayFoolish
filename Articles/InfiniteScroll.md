@@ -72,12 +72,18 @@ export default {
   }
 }
 ```
-**注意：**
+**注意：**  
 1. setup中不能访问组件实例 this, 2.x中使用 `this.$emit` 向父组件发起事件通知的方式不适用了。所以我们将事件处理函数通过 *props* 传递给子组件 
 
 2. Vue3 在模板中使用 ref 的方式与 2.x 有些不同。   
-首先，在 *setup* 中使用 *ref* 创建一个响应式（*reactive*）变量： `const target = ref(null)` ; 并且 *setup* 返回这个变量： `return { target }`  
-然后，在 *template* 中，可以直接通过 *ref="target"* 绑定某个元素为 *ref target* : `<div ref="target"></div>`； 但是在 *setup* 内部， 我们需要通过 `target.value` 访问ref, 所以在观察目标元素的时候访问的是 *target.value* 而不是 *target* ：`observer.observe(target.value)`
+首先，在 *setup* 中使用 *ref* 创建一个响应式（*reactive*）变量：  
+`const target = ref(null)` ;   
+并且 *setup* 返回这个变量：  
+`return { target }`  
+然后，在 *template* 中，可以直接通过 *ref="target"* 绑定某个元素为 *ref target* :   
+`<div ref="target"></div>`  
+ 但是在 *setup* 内部， 我们需要通过 `target.value` 访问ref, 所以在观察目标元素的时候访问的是 *target.value* 而不是 *target* ：  
+ `observer.observe(target.value)`
 
 3. 组件销毁前，需要停止监听，所以在生命周期 *onBeforeUnmount* （相当于2.x中的 beforeDestroy）里调用观察器的 *disconnect* 方法
 
@@ -146,4 +152,9 @@ export default {
   }
 }
 ```
-至此，无效滚动的效果就已经实现了， 看下最终效果:
+至此，无限滚动的效果就已经实现了， 看下最终效果:  
+
+***
+**参考文献**  
+1. [MDN Intersection Observer API](https://developer.mozilla.org/zh-CN/docs/Web/API/Intersection_Observer_API)  
+2. [Build an Infinite Scroll component using Intersection Observer API](https://vueschool.io/articles/vuejs-tutorials/build-an-infinite-scroll-component-using-intersection-observer-api/)
