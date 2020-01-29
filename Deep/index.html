@@ -7,6 +7,38 @@
   <title>Document</title>
 </head>
 <body>
+  <button class="btn"><h3>click</h3></button>
   <script src="./subscribe.js"></script>
+  <script >
+    let s1 = _subscribe()
+
+    let fn1 = function (params) {
+      console.log(1)
+    }
+
+    function fn2(params) {
+      console.log(2)
+      s1.remove(fn1)
+    }
+
+    function fn3(params) {
+      console.log(3)
+    }
+
+    function fn4(params) {
+      console.log(4)
+    }
+
+    s1.add(fn1)
+    s1.add(fn1)
+    s1.add(fn2)
+    s1.add(fn3)
+    s1.add(fn4)
+
+    let trigger = document.querySelector('.btn')
+    trigger.onclick = function(e) {
+      s1.trigger(e)
+    }
+  </script>
 </body>
 </html>

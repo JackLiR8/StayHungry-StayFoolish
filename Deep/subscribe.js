@@ -12,14 +12,27 @@ let _subscribe = function() {
     }
 
     remove(func) {
-      this.$pond = this.$pond.filter(item => item !== func)
+      // this.$pond = this.$pond.filter(item => item !== func)
+      let _pond = this.$pond
+      for (let i = 0; i < _pond.length; i++) {
+        const item = _pond[i];
+        if (item === func) {
+          _pond[i] = null
+          break
+        }
+      }
     }
 
     // 通知事件依次执行
     trigger(...args) {
-      let pond = [...this.$pond]
-      for (let i = 0; i < pond.length; i++) {
-        const item = pond[i];
+      let _pond = this.$pond
+      for (let i = 0; i < _pond.length; i++) {
+        const item = _pond[i]
+        if (typeof item !== 'function') {
+          _pond.splice(i, 1)
+          i--
+          continue
+        }
         item.call(this, ...args)
       }
     }
@@ -29,6 +42,3 @@ let _subscribe = function() {
     return new Sub()
   }
 }()
-
-let s1 = _subscribe()
-console.log(s1)
