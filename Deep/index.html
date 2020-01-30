@@ -7,7 +7,13 @@
   <title>Document</title>
 </head>
 <body>
-  <button class="btn"><h3>click</h3></button>
+  <div>
+    <button class="add1">1</button>
+    <button class="add2">2</button>
+    <button class="add3">3</button>
+    <button class="add4">4</button>
+  </div>
+  <button class="btn"><h3>trigger</h3></button>
   <script src="./subscribe.js"></script>
   <script >
     let s1 = _subscribe()
@@ -18,7 +24,7 @@
 
     function fn2(params) {
       console.log(2)
-      s1.remove(fn1)
+      // s1.remove(fn1)
     }
 
     function fn3(params) {
@@ -29,11 +35,18 @@
       console.log(4)
     }
 
-    s1.add(fn1)
-    s1.add(fn1)
-    s1.add(fn2)
-    s1.add(fn3)
-    s1.add(fn4)
+    document.querySelector('.add1').onclick = function() {
+      s1.add(fn1)
+    }
+    document.querySelector('.add2').onclick = function() {
+      s1.add(fn2)
+    }
+    document.querySelector('.add3').onclick = function() {
+      s1.add(fn3)
+    }
+    document.querySelector('.add4').onclick = function() {
+      s1.add(fn4)
+    }
 
     let trigger = document.querySelector('.btn')
     trigger.onclick = function(e) {
