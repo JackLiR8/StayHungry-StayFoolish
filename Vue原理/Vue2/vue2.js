@@ -40,6 +40,12 @@ function Compile(el, vm) {
         arr.forEach(k => {
           val = val[k.trim()];
         })
+
+        new Watcher(vm, RegExp.$1, function(newVal) {
+          // 函数接受新值newVal
+          node.textContent = text.replace(/\{\{(.*)\}\}/, newVal);
+        })
+        // 替换逻辑
         node.textContent = text.replace(/\{\{(.*)\}\}/, val);
       }
       
@@ -55,16 +61,22 @@ function Compile(el, vm) {
 // 观察对象
 function observe(data) {
   if (typeof data !== 'object') {
-    return new Observe(data);
+    return
   }
+  return new Observe(data);
 }
 
 function Observe(data) {
+  let dep = new Dep()
   for (const key in data) {
     let val = data[key];
+    if (typeof val === 'object') {
+      observe(val);
+    }
     Object.defineProperty(data, key, {
       enumerable: true,
       get() {
+        Dep.target && dep.addSub(Dep.target);
         return val;
       },
       set(newVal) {
@@ -75,6 +87,7 @@ function Observe(data) {
 
         // 拦截新值
         observe(newVal);
+        dep.notify();
       }
     })
   }
@@ -92,9 +105,22 @@ Dep.prototype.notify = function () {
 }
 
 // watcher
-function Watcher(fn) {
-  this.fn = fn;
+function Watcher(vm, exp, fn) {
+  Object.assign(this, { fn, vm, exp });
+  Dep.target = this;
+  getValue(vm, exp);
+  Dep.target = null;
 }
 Watcher.prototype.update = function () {
-  this.fn();
+  let val = getValue(this.vm, this.exp)
+  this.fn(val);
+}
+
+function getValue(vm, exp) {
+  let val = vm;
+  let arr = exp.split('.');
+  arr.forEach(k => {
+    val = val[k.trim()];
+  })
+  return val;
 }
