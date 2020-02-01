@@ -35,7 +35,6 @@ function Compile(el, vm) {
       let text = node.textContent;
       let reg = /\{\{(.*)\}\}/;
       if (node.nodeType === 3 && reg.test(text)) {
-        console.log(RegExp.$1)
         let arr = RegExp.$1.split('.');
         let val = vm;
         arr.forEach(k => {
@@ -64,7 +63,6 @@ function Observe(data) {
   for (const key in data) {
     let val = data[key];
     Object.defineProperty(data, key, {
-      // configurable: true,
       enumerable: true,
       get() {
         return val;
@@ -80,4 +78,23 @@ function Observe(data) {
       }
     })
   }
+}
+
+// 发布订阅
+function Dep() {
+  this.subs = [];
+}
+Dep.prototype.addSub = function (sub) {
+  this.subs.push(sub);
+}
+Dep.prototype.notify = function () {
+  this.subs.forEach(sub => sub.update());
+}
+
+// watcher
+function Watcher(fn) {
+  this.fn = fn;
+}
+Watcher.prototype.update = function () {
+  this.fn();
 }
