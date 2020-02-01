@@ -34,6 +34,7 @@ function Compile(el, vm) {
     Array.from(fragment.childNodes).forEach(node => {
       let text = node.textContent;
       let reg = /\{\{(.*)\}\}/;
+      // 文本节点
       if (node.nodeType === 3 && reg.test(text)) {
         let arr = RegExp.$1.split('.');
         let val = vm;
@@ -47,6 +48,30 @@ function Compile(el, vm) {
         })
         // 替换逻辑
         node.textContent = text.replace(/\{\{(.*)\}\}/, val);
+      }
+      // 元素节点
+      if (node.nodeType === 1) {
+        let nodeAttrs = node.attributes;    // 当前dom节点属性
+        Array.from(nodeAttrs).forEach(attr => {
+          let name = attr.name;
+          let exp = attr.value;
+          if (name.indexOf('v-model') == 0) {
+            node.value = getValue(vm, exp);
+          }
+          new Watcher(vm, exp, function(newVal) {
+            node.value = newVal;
+          })
+          node.addEventListener('input', function(e) {
+            let newVal = e.target.value;
+            let pathArr = exp.split('.');
+            let length = pathArr.length;
+            let target = vm;
+            for (let i = 0; i < length - 1; i++) {
+              target = target[pathArr[i]]
+            }
+            target[pathArr[length - 1]] = newVal;
+          })
+        })
       }
       
       if (node.childNodes) {

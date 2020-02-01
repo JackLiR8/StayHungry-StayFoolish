@@ -8,8 +8,14 @@
 </head>
 <body>
   <div id="app">
-    <h3>{{ a }}</h3>
-    <h2>{{ b.target }}</h2>
+    <h3>a: {{ a }}</h3>
+    <h3>b.target: {{ b.target }}</h3>
+    <h3>c.d.e: {{ c.d.e }}</h3>
+    <div>
+      a: <input type="text" v-model="a" ><br>
+      b.target: <input type="text" v-model="b.target" ><br>
+      c.d.e: <input type="text" v-model="c.d.e" >
+    </div>
   </div>
   <script src="./vue2.js"></script>
   <script>
@@ -19,6 +25,11 @@
         a: 'hello',
         b: {
           target: 'world'
+        },
+        c: {
+          d: {
+            e: 'this is e'
+          }
         }
       }
     })
