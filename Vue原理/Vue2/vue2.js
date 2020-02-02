@@ -55,6 +55,8 @@ function Compile(el, vm) {
         Array.from(nodeAttrs).forEach(attr => {
           let name = attr.name;
           let exp = attr.value;
+
+          // 简单实现 input[type="text"] 的v-model
           if (name.indexOf('v-model') == 0) {
             node.value = getValue(vm, exp);
           }
@@ -137,7 +139,7 @@ function Watcher(vm, exp, fn) {
   Dep.target = null;
 }
 Watcher.prototype.update = function () {
-  let val = getValue(this.vm, this.exp)
+  let val = getValue(this.vm, this.exp);
   this.fn(val);
 }
 
