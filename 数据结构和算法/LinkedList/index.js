@@ -84,7 +84,7 @@ LinkedList.prototype.addAtIndex = function(index, val) {
     vm.addAtTail(val)
   } else {
     let _prev = getNode(vm, index - 1)
-    let _next = getNode(vm, index)
+    let _next = _prev.next
     let node = new ListNode(val)
 
     _prev.next = node
@@ -113,8 +113,8 @@ LinkedList.prototype.deleteAtIndex = function(index) {
     }
   } else {
     const _prev = getNode(vm, index - 1)
-    const _next = getNode(vm, index + 1)
-    _prev.next = _next
+    const cur = _prev.next
+    _prev.next = cur.next
   }
   vm.length--
 }
