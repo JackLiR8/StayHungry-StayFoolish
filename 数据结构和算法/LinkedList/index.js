@@ -78,7 +78,7 @@ LinkedList.prototype.addAtIndex = function(index, val) {
   const vm = this
   if (index > vm.length) {
     return
-  } else if (index < 0) {
+  } else if (index <= 0) {
     vm.addAtHead(val)
   } else if (index === vm.length) {
     vm.addAtTail(val)
@@ -132,15 +132,11 @@ function getNode(vm, index) {
 
 const l1 = new LinkedList()
 console.log('list', l1)
-l1.addAtHead(7)
-l1.addAtHead(2)
-l1.addAtHead(1)
-l1.addAtIndex(3, 0)
-l1.deleteAtIndex(2)
-l1.addAtHead(6)
-l1.addAtTail(4)
-l1.get(4)
-l1.addAtHead(4)
-l1.addAtIndex(5,0)
-l1.addAtHead(6)
+l1.addAtIndex(0, 10)
+l1.addAtIndex(0, 20)
+l1.addAtIndex(1, 30)
+l1.get(0)
+// l1.addAtHead(4)
+// l1.addAtIndex(5,0)
+// l1.addAtHead(6)
 console.log(l1.get(4))
