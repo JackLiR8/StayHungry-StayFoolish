@@ -18,18 +18,41 @@ n4.next = n2
 console.log('cycle',n1)
 
 function hasCycle(head) {
-  let map = new Map()
-  function judge(map, cur){
-    if (cur && cur.next) {
-      if (map.has(cur.next)) {
-        return true
-      }
-      map.set(cur.next, Symbol())
-      return judge(map, cur.next)
+  let fast = head
+  let slow = head
+  while (slow !== null && fast !== null && fast.next !== null) {
+    fast = fast.next.next
+    slow = slow.next
+    if (fast === slow) {
+      return true
     }
-    return false
   }
-  return judge(map, head)
+  return false
 }
 
 console.log('hascycle', hasCycle(n1))
+
+/**
+ * @param {ListNode} head
+ * @return {ListNode}
+ */
+function detectCycle(head) {
+  let map = new Map()
+  function judge(map, cur){
+    if (cur) {
+      // 如果map里存在cur
+      // 则返回cur，即返回链表开始入环的第一个节点
+      if (map.has(cur)) {
+        return map.get(cur)
+      }
+
+      // 如果不存在，把当前节点存入map
+      // 递归向下查找
+      map.set(cur, cur)
+      return judge(map, cur.next)
+    }
+    return null
+  }
+  return judge(map, head)
+}
+console.log('detectCycle', detectCycle(n1))
