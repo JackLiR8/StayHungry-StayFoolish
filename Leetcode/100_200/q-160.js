@@ -2,6 +2,12 @@
  * @file LeetCode 160 相交链表
  */
 
+/**
+ * 哈希表法 
+ * @param {ListNode} headA
+ * @param {ListNode} headB
+ * @return {ListNode}
+ */
 function getIntersectionNode(headA, headB) {
   let map = new Map()
   let curr = headA
@@ -21,6 +27,23 @@ function getIntersectionNode(headA, headB) {
   }
 
   return null
+}
+
+/**
+ * 双指针法
+ * @param {ListNode} headA
+ * @param {ListNode} headB
+ * @return {ListNode}
+ */
+function getIntersectionNode2(headA, headB) {
+  if (headA == null || headB == null) return null
+
+  let [pA, pB] = [headA, headB]
+  while(pA !== pB) {
+    pA = pA == null ? headB : pA.next
+    pB = pB == null ? headA : pB.next
+  }
+  return pA
 }
 
 /**
