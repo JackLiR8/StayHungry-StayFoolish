@@ -1,13 +1,34 @@
 /**
- * @file LeetCode 160
+ * @file LeetCode 160 相交链表
  */
+
+function getIntersectionNode(headA, headB) {
+  let map = new Map()
+  let curr = headA
+
+  // 遍历headA把节点地址存在map里
+  while(curr) {
+    map.set(curr, curr)
+    curr = curr.next
+  }
+
+  curr = headB
+  while(curr) {
+    if (map.has(curr)) {
+      return map.get(curr)
+    }
+    curr = curr.next
+  }
+
+  return null
+}
 
 /**
  * @param {ListNode} headA
  * @param {ListNode} headB
  * @return {ListNode}
  */
-function getIntersectionNode(headA, headB) {
+function getIntersectionNode1(headA, headB) {
   let map = new Map()
   function iterator(c1, c2) {
     if (c1 || c2) {
