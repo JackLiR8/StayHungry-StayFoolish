@@ -17,6 +17,30 @@ console.log('list',list)
  * @return {ListNode}
  */
 function removeNthFromEnd(head, n) {
+  let map = new Map()
+  let curr = head
+  while(curr) {
+    map.set(map.size, curr)
+    curr = curr.next
+  }
+
+  if (n === map.size) {
+    map.get(0).next = null
+    // 如若链表长度为1，删除后map.get(1)为undefined
+    return map.get(1) || null
+  }
+
+  let prev = map.get(map.size - n - 1)
+  prev.next = prev.next.next
+  return map.get(0)
+}
+
+/**
+ * @param {ListNode} head
+ * @param {number} n
+ * @return {ListNode}
+ */
+function removeNthFromEnd1(head, n) {
   let [pool, curr] = [[], head]
   while(curr) {
     pool.push(curr)
@@ -33,4 +57,4 @@ function removeNthFromEnd(head, n) {
   return pool[0]
 }
 
-console.log('q-19', removeNthFromEnd(list.head, 1))
+console.log('q-19', removeNthFromEnd(list.head, 2))
