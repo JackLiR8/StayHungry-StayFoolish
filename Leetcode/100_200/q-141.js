@@ -19,11 +19,11 @@ n4.next = n2
 function hasCycle(head) {
   let map = new Map()
   function judge(map, cur){
-    if (cur && cur.next) {
-      if (map.has(cur.next)) {
+    if (cur) {
+      if (map.has(cur)) {
         return true
       }
-      map.set(cur.next, Symbol())
+      map.set(cur, Symbol())
       return judge(map, cur.next)
     }
     return false
