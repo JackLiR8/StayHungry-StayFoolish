@@ -1,3 +1,6 @@
+/**
+ *@file 设计循环队列 
+ */
 
 /**
  * Initialize your data structure here. Set the size of the queue to be k.
@@ -5,9 +8,10 @@
  */
 let MyCircularQueue = function(k) {
   this.length = k
-  this.head = 0
-  this.tail = 0
-  this.queue = []
+  this.head = -1
+  this.tail = -1
+  // 使用Array(k) 创建数组后必须使用fill填充，否则会导致every等方法错误
+  this.queue = Array(k).fill(null)
 };
 
 /**
@@ -16,13 +20,18 @@ let MyCircularQueue = function(k) {
  * @return {boolean}
  */
 MyCircularQueue.prototype.enQueue = function(value) {
-  if (this.isFull()) return false
-  if (this.isEmpty()) {
-    this.head++
+  const cq = this
+  if (cq.isFull()) return false
+  else if (cq.isEmpty()) {
+    cq.head ++
+    cq.tail ++
+  } 
+  else {
+    // tail可以继续累加的条件是 cq.tail < cq.length - 1
+    cq.tail < cq.length - 1 ? cq.tail++ : cq.tail = 0 
   }
-  if (this.tail === this.length) this.tail = 1
-  else this.tail++
-  this.queue[tail] = value
+
+  cq.queue.splice(cq.tail, 1, value)
   return true
 };
 
@@ -31,7 +40,20 @@ MyCircularQueue.prototype.enQueue = function(value) {
  * @return {boolean}
  */
 MyCircularQueue.prototype.deQueue = function() {
-  if (this.isEmpty()) return false
+  const cq = this
+  if (cq.isEmpty()) return false
+
+  // 先删除head，再处理指针
+  cq.queue.splice(cq.head, 1, null)
+  // 队列刚移除最后一个元素
+  if (cq.head === cq.tail) {
+    cq.head = cq.tail = -1
+  }
+  else {
+    // head 可以继续累加的条件是 cq.head < cq.length - 1
+    cq.head < cq.length - 1 ? cq.head++ : cq.head = 0
+  }
+  return true
 };
 
 /**
@@ -39,7 +61,7 @@ MyCircularQueue.prototype.deQueue = function() {
  * @return {number}
  */
 MyCircularQueue.prototype.Front = function() {
-
+  return this.isEmpty() ? -1 : this.queue[this.head]
 };
 
 /**
@@ -47,7 +69,7 @@ MyCircularQueue.prototype.Front = function() {
  * @return {number}
  */
 MyCircularQueue.prototype.Rear = function() {
-
+  return this.isEmpty() ? -1 : this.queue[this.tail]
 };
 
 /**
@@ -55,7 +77,7 @@ MyCircularQueue.prototype.Rear = function() {
  * @return {boolean}
  */
 MyCircularQueue.prototype.isEmpty = function() {
-  return this.queue.length === 0
+  return this.queue.every(item => item === null)
 };
 
 /**
@@ -63,5 +85,5 @@ MyCircularQueue.prototype.isEmpty = function() {
  * @return {boolean}
  */
 MyCircularQueue.prototype.isFull = function() {
-  return this.queue.length === this.length
+  return this.queue.every(item => item !== null)
 };
