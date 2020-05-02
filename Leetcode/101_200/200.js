@@ -8,7 +8,7 @@
  * @return {number}
  */
 function numIslands(grid) {
-  if (!Array.isArray(grid) || grid.length === 0) return
+  if (!Array.isArray(grid) || grid.length === 0) return 0
 
   const nr = grid.length
   const nc = grid[0].length
