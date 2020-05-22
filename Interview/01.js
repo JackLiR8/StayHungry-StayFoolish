@@ -26,7 +26,7 @@ function deepClone(obj) {
   // 过滤特殊情况
   if (obj === null) return null
   if (typeof obj !== 'object') return obj
-  if (obj instanceof RefExp) {
+  if (obj instanceof RegExp) {
     return new RegExp(obj)
   }
   if (obj instanceof Date) {
