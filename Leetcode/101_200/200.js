@@ -54,3 +54,44 @@ function numIslands(grid) {
 
   return num
 };
+
+// ==================== 深度优先解法 ===================
+/**
+ * 深度优先搜索解法
+ * @param {character[][]} grid
+ * @return {number}
+ */
+function numIslandsDfs(grid) {
+  if (!Array.isArray(grid) || grid.length === 0) {
+    return 0
+  }
+
+  let nr = grid.length,
+      nc = grid[0].length,
+      numIslands = 0
+  for (let r = 0; r < nr; r++) {
+    for (let c = 0; c < nc; c++) {
+      if (grid[r][c] === '1') {
+        numIslands++
+        dfs(grid, r, c)
+      }
+    }
+  }
+
+  return numIslands
+}
+
+function dfs(grid, r, c) {
+  let nr = grid.length,
+      nc = grid[0].length
+
+  if (r < 0 || c < 0 || r >= nr || c >= nc || grid[r][c] === '0') {
+    return
+  }
+
+  grid[r][c] = '0'
+  dfs(grid, r - 1, c)
+  dfs(grid, r + 1, c)
+  dfs(grid, r, c - 1)
+  dfs(grid, r, c + 1)
+}
