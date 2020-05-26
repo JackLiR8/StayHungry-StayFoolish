@@ -49,4 +49,28 @@ function bubbleSort(nums) {
   return nums
 }
 
-console.log(bubbleSort([4,3,2, 1, 6]))
+/**
+ * 插入排序
+ * 稳定
+ * 时间复杂度： 平均O(n^2)， 最坏O(n^2)， 最好O(n)
+ * @param {number[]} nums
+ * @return {number[]}
+ */
+function insertionSort(nums) {
+  let len = nums.length
+  let preIndex, curr
+  for (let i = 1; i < len; i++) {
+    preIndex = i - 1,
+    curr = nums[i]
+    while (preIndex >=0 && nums[preIndex] > curr) {
+      // 把已排序元素向后挪，为新元素插入提供空间
+      nums[preIndex + 1] = nums[preIndex]
+      preIndex--
+    }
+    nums[preIndex + 1] = curr
+  }
+
+  return nums
+}
+
+console.log(insertionSort([4,3,2, 1, 6]))
