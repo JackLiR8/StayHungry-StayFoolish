@@ -73,4 +73,34 @@ function insertionSort(nums) {
   return nums
 }
 
-console.log(insertionSort([4,3,2, 1, 6]))
+/**
+ * 希尔排序
+ * 不稳定
+ * 时间复杂度： 平均O(nlog2n)， 最坏O(nlog2n)， 最好O(n)
+ * @param {number[]} nums
+ * @return {number[]} 
+ */
+function shellSort (items) {
+  var interval = 1
+  
+  while (interval < items.length / 3) {
+    interval = interval * 3 + 1
+  }
+
+  while (interval > 0) {
+    for (var outer = interval; outer < items.length; outer++) {
+      var value = items[outer]
+      var inner = outer
+
+      while (inner > interval - 1 && items[inner - interval] >= value) {
+        items[inner] = items[inner - interval]
+        inner = inner - interval
+      }
+      items[inner] = value
+    }
+    interval = (interval - 1) / 3
+  }
+  return items
+}
+
+console.log(shellSort([6, 4, 5, 3, 1, 2]))
