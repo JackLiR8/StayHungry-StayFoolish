@@ -81,18 +81,20 @@ function insertionSort(nums) {
  * @return {number[]} 
  */
 function shellSort (items) {
-  var interval = 1
+  let interval = 1
   
   while (interval < items.length / 3) {
     interval = interval * 3 + 1
   }
 
   while (interval > 0) {
-    for (var outer = interval; outer < items.length; outer++) {
-      var value = items[outer]
-      var inner = outer
+    for (let outer = interval; outer < items.length; outer++) {
+      let value = items[outer]
+      let inner = outer
 
-      while (inner > interval - 1 && items[inner - interval] >= value) {
+      // 条件：inner > interval - 1 即为 inner - interval > -1
+      // 这样可以确保第二层判断items[inner - interval] 取到有效值
+      while (inner > interval - 1 && items[inner - interval] > value) {
         items[inner] = items[inner - interval]
         inner = inner - interval
       }

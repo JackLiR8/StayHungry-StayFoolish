@@ -12,7 +12,7 @@
 
 #demo {
   /* transition: 1s 1s ease-in; */
-  transition-property: height width;
+  transition-property: height, width;
   transition-duration: 1s;
   transition-delay: 0.5s;
   transition-timing-function: ease-in;
