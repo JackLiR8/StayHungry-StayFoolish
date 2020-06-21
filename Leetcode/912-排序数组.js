@@ -9,7 +9,7 @@
 /**
  * 快速排序
  * 不稳定
- * 时间复杂度：平均O(n*log2(n))， 最坏O(n^2)， 最好O(n*log2(n))
+ * 时间复杂度：平均O(n*logn)， 最坏O(n^2)， 最好O(n*logn)
  * @param {number[]} nums
  * @return {number[]}
  */
@@ -76,7 +76,7 @@ function insertionSort(nums) {
 /**
  * 希尔排序
  * 不稳定
- * 时间复杂度： 平均O(nlog2n)， 最坏O(nlog2n)， 最好O(n)
+ * 时间复杂度： 平均O(nlogn)， 最坏O(nlogn)， 最好O(n)
  * @param {number[]} nums
  * @return {number[]} 
  */
