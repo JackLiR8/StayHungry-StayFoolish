@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>test</title>
+</head>
+<body>
+  <div>
+    <label for="file">Choose file to upload</label>
+    <input type="file" accept="image/*" multiple name="file" id="file" >
+    <div id="container">
+      <img id="img" style="height: 50px;width: 50px;" src="" >
+    </div>
+  </div>
+  <script>
+    let QUEUE_FLUSHING = false;   // 是否正在清空队列
+    let FILE_QUEUE = []   // 待上传文件队列
+
+    const inputElement = document.getElementById("file");
+    inputElement.addEventListener("change", handleFiles, false);
+
+    function handleFiles() {
+      const fileList = this.files
+      const len = fileList.length
+
+      for (let i = 0; i < len; i++) {
+        const file = fileList[i]
+        // 待上传文件入队
+        FILE_QUEUE.push(file)
+      }
+      flushQueue()
+    }
+
+    function flushQueue() {
+      // 当前正在清空队列，返回
+      if (QUEUE_FLUSHING) return
+
+      QUEUE_FLUSHING = true
+      while (FILE_QUEUE.length > 0) {
+        let file = FILE_QUEUE.shift()
+        fileReader(file)
+      }
+      QUEUE_FLUSHING = false
+    }
+
+    function fileReader(file) {
+      if (!file) return
+      let reader = new FileReader(),
+          imgUrlBase64 = reader.readAsDataURL(file),
+          maxSize = 2100000; //上传图片最大值(2 M = 2097152 B)
+
+      reader.onload = function (e) {
+        if (maxSize !== 0 && maxSize < reader.result.length) {
+          alert('上传失败，请上传不大于2M的图片！')
+          return
+        }
+
+        upload({ 
+          'img_name': file.name,
+          base64: reader.result
+        })
+      }
+    }
+    
+    function upload(imgInfo) {
+      console.log('imgInfo', imgInfo)
+    }
+
+  </script>
+</body>
+</html>
