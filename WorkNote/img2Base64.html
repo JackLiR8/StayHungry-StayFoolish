@@ -4,11 +4,34 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>test</title>
+  <style>
+    .visually-hidden {
+      position: absolute !important;
+      height: 1px;
+      width: 1px;
+      overflow: hidden;
+      clip: rect(1px, 1px, 1px, 1px);
+    }
+
+    /* Separate rule for compatibility, :focus-within is required on modern Firefox and Chrome */
+    input.visually-hidden:focus + label {
+      outline: thin dotted;
+    }
+    input.visually-hidden:focus-within + label {
+      outline: thin dotted;
+    }
+  </style>
 </head>
 <body>
   <div>
     <label for="file">Choose file to upload</label>
-    <input type="file" accept="image/*" multiple name="file" id="file" >
+    <input 
+      type="file" 
+      id="file"
+      accept="image/*" 
+      multiple 
+      name="file" 
+      class="visually-hidden" >
     <div id="container">
       <img id="img" style="height: 50px;width: 50px;" src="" >
     </div>
