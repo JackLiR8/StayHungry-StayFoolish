@@ -6,9 +6,10 @@
 
 **简单说，ArrayBuffer对象代表原始的二进制数据，TypedArray视图用来读写简单类型的二进制数据，DataView视图用来读写复杂类型的二进制数据。**
 
-TypedArray视图支持的数据类型一共有 9 种（DataView视图支持除Uint8C以外的其他 8 种）。
+TypedArray视图支持的数据类型一共有 9 种（DataView视图支持除Uint8C以外的其他 8 种）。  
+
 数据类型 | 字节长度 |	含义 | 对应的 C 语言类型
-- | - | - | -
+-- | -- | -- | --
 Int8	| 1	| 8 位带符号整数	| signed char
 Uint8	| 1	| 8 位不带符号整数	| unsigned char
 Uint8C	| 1	8 位不带符号整数（自动过滤溢出）| 	unsigned char
