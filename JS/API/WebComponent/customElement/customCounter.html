@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <template id="counter-temp">
+    <style>
+      button,
+      span {
+        font-size: 3rem;
+        font-family: monospace;
+        padding: 0 .5rem;
+      }
+
+      button {
+        background: pink;
+        color: black;
+        border: 0;
+        border-radius: 6px;
+        box-shadow: 0 0 5px rgba(173, 61, 85, .5);
+      }
+
+      button:active {
+        background: #ad3d55;
+        color: white;
+      }
+    </style>
+    <div>
+      <button type="button" increment>+</button>
+      <span></span>
+      <button type="button" decrement>-</button>
+    </div>
+  </template>
+
+  <custom-counter value="10" step="5"></custom-counter>
+  <script src="./customCounter.js"></script>
+</body>
+</html>
