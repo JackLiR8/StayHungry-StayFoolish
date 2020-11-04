@@ -1,0 +1,63 @@
+.flex__container {
+  background-color: #7e4c95;
+  width: 340px;
+  height: 340px;
+
+  display: flex;  
+  /* flex | inline-flex */
+
+  flex-direction: row;
+  /* row | row-reverse | column | column-reverse  */
+
+  flex-wrap: wrap;
+  /* nowrap | wrap | wrap-reverse */
+
+  justify-content: space-around;
+  /* 主轴对齐方式 */
+  /* flex-start | flex-end | center | space-between |
+   space-around | space-evenly | start | end | left |
+   right ... + safe | unsafe */
+
+  align-items: center;
+  /* 交叉轴对齐方式 */
+  /* flex-start | flex-end | center | stretch | baseline |
+   first baseline | last baseline | start | end | self-start |
+   self-end + ... safe | unsafe; */
+  
+  /* 若项目已经设置宽高，stretch不起作用 */
+
+  align-content: normal;
+  /* flex-start | flex-end | center | space-between | space-around |
+   space-evenly | stretch | start | end | baseline | first baseline |
+   last baseline + ... safe | unsafe; */
+   
+  /* Note: This property only takes effect on multi-line flexible
+   containers, where flex-flow is set to either wrap or wrap-reverse). 
+   A single-line flexible container (i.e. where flex-flow is set to its
+   default value, no-wrap) will not reflect align-content. */
+}
+
+.flex__item {
+  background-color: #f6931d;
+  height: 100px;
+  width: 100px;
+
+  order: 0;
+  /* 控制显示顺序 */
+
+  flex-grow: 0;
+  /* 定义项目放大比例 默认0 */
+
+  flex-shrink: 1;
+  /* 项目缩小比例 默认1 */
+
+  flex-basis: auto;
+  /* 定义了在分配多余空间之前，项目占据的主轴空间（main size） */
+
+  flex: 0 1 auto;
+  /* flex-grow, flex-shrink 和 flex-basis的简写，默认值为0 1 auto。
+  后两个属性可选 */
+
+  align-self: auto;
+  /* auto | flex-start | flex-end | center | baseline | stretch */
+}
